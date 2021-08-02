@@ -1,0 +1,70 @@
+# =======================================
+#  AutoResetWorld
+# =======================================
+# @author     rypengu23
+# @copyright  Copyright ryoengu23 2021
+version: 1.0
+# =======================================
+
+setting:
+  # 指定時刻に自動でリセットするかどうか（true/false）
+  autoReset: true
+
+time:
+  # リセットを行う曜日（月～日）
+  # 記載例(単一指定) resetDayOfTheWeek: "日"
+  # 記載例(複数指定) resetDayOfTheWeek: "日,水"
+  resetDayOfTheWeek: "日"
+
+  # リセットを行う時間（hh:mm)
+  # 記載例(単一指定) resetTime: "00:00"
+  # 記載例(複数指定) resetTime: "00:00,12:00"
+  resetTime: "00:00"
+
+  # リセット時刻何秒前に通知するか（秒)
+  # 記載例(単一指定) resetNotifyTime: "10"
+  # 記載例(複数指定) resetNotifyTime: "300,60,30,10,5,4,3,2,1"
+  resetNotifyTime: "300,60,30,10,5,4,3,2,1"
+
+worldInfo:
+  # 素材世界名（ノーマル）
+  materialWorldNameOfNormal: "material"
+
+  # 素材世界名（ネザー）
+  materialWorldNameOfNether: "material_nether"
+
+  # 素材世界名（ジ・エンド）
+  materialWorldNameOfEnd: "material_the_end"
+
+border:
+  # ワールドサイズを指定（直径）
+  # 素材世界（ノーマル）
+  materialWorldOfNormalSize: 2000
+  # 素材世界（ネザー）
+  materialWorldOfNetherSize: 2000
+  # 素材世界（ジ・エンド）
+  materialWorldOfEndSize: 6000
+
+gateInfo:
+  # MultiversePortalsを利用して素材世界への行き来をしているかどうか
+  useMultiversePortals: false
+
+  # MultiversePortalsを利用している場合；各素材世界のスポーン地点に利用しているポータル名を記載
+  # 素材世界名（ノーマル）
+  portalNameOfNormal: "material_spawn"
+
+  # 素材世界名（ネザー）
+  portalNameOfNether: "materialnether_spawn"
+
+  # 素材世界名（ジ・エンド）
+  portalNameOfEnd: "materialend_spawn"
+
+  # MultiversePortalsを利用している場合；ポータルにゲート(構造物)を自動生成するかどうか
+  # 素材世界名（ノーマル）
+  gateAutoBuildOfNormal: true
+
+  # 素材世界名（ネザー）
+  gateAutoBuildOfNether: true
+
+  # 素材世界名（ジ・エンド）
+  gateAutoBuildOfEnd: true

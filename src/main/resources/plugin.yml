@@ -1,0 +1,26 @@
+name: AutoResetWorld
+version: 1.0
+main: com.github.rypengu23.autoresetmaterialworld.AutoResetMaterialWorld
+api-version: 1.16
+authors: [ rypengu23 ]
+description: World auto reset plugin
+softdepend: ['Multiverse-Core', 'Multiverse-Portals']
+
+commands:
+  autoreset:
+    description: 素材世界リセットコマンド
+  ar:
+    description: 省略版
+
+permissions:
+  autoResetWorld.*:
+    description: 全ての権限にアクセス可能
+    children:
+      autoResetWorld.use: true
+      autoResetWorld.info: true
+  autoResetWorld.use:
+    description: 手動で素材世界のリセット可能
+    default: op
+  autoResetWorld.info:
+    description: リセット時刻情報閲覧可
+    default: true
