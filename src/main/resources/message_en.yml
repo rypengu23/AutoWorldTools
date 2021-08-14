@@ -1,0 +1,59 @@
+###########################################
+# Message file
+version: 1.0
+language: "English"
+###########################################
+
+# Prefix
+prefix: "[AWT]"
+
+# Day of week
+sunday: "Sunday"
+monday: "Monday"
+tuesday: "Tuesday"
+wednesday: "Wednesday"
+thursday: "Thursday"
+friday: "Friday"
+saturday: "Saturday"
+
+# Unit of time
+# Hour
+hour: "hour"
+hours: "hours"
+# Minute
+minute: "minute"
+minutes: "minutes"
+# Second
+second: "second"
+seconds: "seconds"
+
+# Countdown before reset
+# {countdown}:Time to reset (○○hours○○minutes○○seconds)
+countdown: "&fWorld reset will be performed after {countdown}."
+
+# Reset start
+resetStart: "&fReset start."
+
+# Reset complete
+resetComplete: "&fReset complete."
+
+# Countdown before backup
+# {countdown}:Time to backup (○○hours○○minutes○○seconds)
+backupCountdown: "&fWorld backup will be performed after {countdown}."
+
+# Backup start
+backupStart: "&fBackup start."
+
+# Backup complete
+backupComplete: "&fBackup complete."
+
+# reset time information（/awt reset info)
+# {dayofweek}:dayofweek
+# {time}:reset time
+resetTimeInfo: "&fThe World Reset takes place every {dayofweek} at {time}."
+
+# Backup time information（/awt backup info)
+# {dayofweek}:dayofweek
+# {time}:backup time
+backupTimeInfo: "&fWorlds Backup takes place every {dayofweek} at {time}."
+

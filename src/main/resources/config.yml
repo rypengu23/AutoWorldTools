@@ -1,70 +1,154 @@
 # =======================================
-#  AutoResetWorld
+#  AutoWorldTools
 # =======================================
+#
+# Auto regenerate world and reset tool.
+# 自動ワールド再生成 & バックアッププラグイン。
+#
 # @author     rypengu23
 # @copyright  Copyright ryoengu23 2021
 version: 1.0
 # =======================================
 
 setting:
-  # 指定時刻に自動でリセットするかどうか（true/false）
+  # MessageLanguage (en/ja)
+  # アナウンス・コマンド実行時の言語
+  # en:English
+  # ja:日本語
+  language: "ja"
+
+  # ConsoleLanguage (en/ja)
+  # コンソールメッセージの言語
+  # en:English
+  # ja:日本語
+  consoleLanguage: "ja"
+
+  # Whether to reset the world at the specified time.（true/false）
+  # 指定時刻に自動でリセットするかどうか
   autoReset: true
+  # Whether to backup the world at the specified time.（true/false）
+  # 指定時刻に自動でバックアップするかどうか
+  autoBackup: true
+  # Maximum storage amount
+  # バックアップの保存上限数
+  backupLimit: 30
 
-time:
-  # リセットを行う曜日（月～日）
-  # 記載例(単一指定) resetDayOfTheWeek: "日"
-  # 記載例(複数指定) resetDayOfTheWeek: "日,水"
-  resetDayOfTheWeek: "日"
+# =======================================
+#  Reset setting
+# =======================================
 
-  # リセットを行う時間（hh:mm)
-  # 記載例(単一指定) resetTime: "00:00"
-  # 記載例(複数指定) resetTime: "00:00,12:00"
+resetTime:
+  # Day of the week for automatic reset. (sun,mon,tue,wed,thu,fri,sat)
+  # リセットを行う曜日
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載 (,)
+  resetDayOfTheWeek: "sun"
+
+  # Reset time
+  # リセットを行う時刻（hh:mm)
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載
   resetTime: "00:00"
 
+  # Notify before reset time. (second)
   # リセット時刻何秒前に通知するか（秒)
-  # 記載例(単一指定) resetNotifyTime: "10"
-  # 記載例(複数指定) resetNotifyTime: "300,60,30,10,5,4,3,2,1"
+  # If you specify more than one, separate them with commas. (,) Blank if you do not want to be notified.
+  # 複数指定する場合、カンマ区切りで記載。 通知を行わない場合、空白のみにする。
   resetNotifyTime: "300,60,30,10,5,4,3,2,1"
 
-worldInfo:
-  # 素材世界名（ノーマル）
-  materialWorldNameOfNormal: "material"
+resetWorldInfo:
+  # World name to reset
+  # リセットを行うワールド名
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載
 
-  # 素材世界名（ネザー）
-  materialWorldNameOfNether: "material_nether"
-
-  # 素材世界名（ジ・エンド）
-  materialWorldNameOfEnd: "material_the_end"
+  # Normal
+  # ノーマル
+  worldNameOfNormal: "material"
+  # Nether
+  # ネザー
+  worldNameOfNether: "material_nether"
+  # World the end
+  # ジ・エンド
+  worldNameOfEnd: "material_the_end"
 
 border:
-  # ワールドサイズを指定（直径）
-  # 素材世界（ノーマル）
-  materialWorldOfNormalSize: 2000
-  # 素材世界（ネザー）
-  materialWorldOfNetherSize: 2000
-  # 素材世界（ジ・エンド）
-  materialWorldOfEndSize: 6000
+  # World border size after reset (diameter)
+  # リセット後のワールドサイズを指定（直径）
+
+  # Normal
+  # ノーマル
+  worldOfNormalSize: 2000
+  # Nether
+  # ネザー
+  worldOfNetherSize: 2000
+  # World the end
+  # ジ・エンド
+  worldOfEndSize: 6000
 
 gateInfo:
+  # Whether you are using Multiverse-Portals (true/false)
   # MultiversePortalsを利用して素材世界への行き来をしているかどうか
   useMultiversePortals: false
 
+  # If you are using "Multiverse-Portals", list the portal name of each world.
   # MultiversePortalsを利用している場合；各素材世界のスポーン地点に利用しているポータル名を記載
-  # 素材世界名（ノーマル）
+
+  # Portal name (Normal)
+  # ポータル名（ノーマル）
   portalNameOfNormal: "material_spawn"
-
-  # 素材世界名（ネザー）
+  # Portal name (Nether)
+  # ポータル名（ネザー）
   portalNameOfNether: "materialnether_spawn"
-
-  # 素材世界名（ジ・エンド）
+  # Portal name (The end)
+  # ポータル名（ジ・エンド）
   portalNameOfEnd: "materialend_spawn"
 
-  # MultiversePortalsを利用している場合；ポータルにゲート(構造物)を自動生成するかどうか
-  # 素材世界名（ノーマル）
+  # If you are using "Multiverse Portals", Whether to generate structures around the portal. (true/false)
+  # MultiversePortalsを利用している場合；指定したワールドのポータルにゲート(構造物)を自動生成するかどうか
+
+  # World name (Noemal)
+  # ワールド名（ノーマル）
   gateAutoBuildOfNormal: true
-
-  # 素材世界名（ネザー）
+  # World name (Nether)
+  # ワールド名（ネザー）
   gateAutoBuildOfNether: true
-
-  # 素材世界名（ジ・エンド）
+  # World name (The end)
+  # ワールド名（ジ・エンド）
   gateAutoBuildOfEnd: true
+
+# =======================================
+#  Backup setting
+# =======================================
+
+backupWorldInfo:
+  # World name to reset
+  # リセットを行うワールド名
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載
+  backupWorldName: "world,world_nether"
+
+backupTime:
+  # Day of the week for automatic backup. (sun,mon,tue,wed,thu,fri,sat)
+  # バックアップを行う曜日
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載 (,)
+  backupDayOfTheWeek: "sun"
+
+  # Backup time
+  # バックアップを行う時刻（hh:mm)
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載
+  backupTime: "00:00"
+
+  # Notify before backup time. (second)
+  # バックアップ時刻何秒前に通知するか（秒)
+  # If you specify more than one, separate them with commas. (,) Blank if you do not want to be notified.
+  # 複数指定する場合、カンマ区切りで記載。通知を行わない場合、空白のみにする。
+  backupNotifyTime: "300,60,30,10,5,4,3,2,1"
+
+backupLocation:
+
+  # Backup storage location
+  # バックアップの保存先
+  fileLocation: "C:/worldBackup/"

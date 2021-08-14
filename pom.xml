@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.rypengu23</groupId>
-    <artifactId>autoResetMaterialWorld</artifactId>
+    <artifactId>AutoWorldTools</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>AutoResetMaterialWorld</name>
+    <name>AutoWorldTools</name>
 
-    <description>Auto reset material world plugin</description>
+    <description>World auto reset and backup plugin</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -66,6 +66,10 @@
             <id>OnARandomBox</id>
             <url>http://repo.onarandombox.com/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>himajyun-repo</id>
+            <url>https://himajyun.github.io/mvn-repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -86,6 +90,21 @@
             <artifactId>Multiverse-Portals</artifactId> <!-- Replace this as well -->
             <version>4.2.2-SNAPSHOT</version> <!-- This too -->
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jp.jyn</groupId>
+            <artifactId>JBukkitLib</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.1</version>
         </dependency>
     </dependencies>
 

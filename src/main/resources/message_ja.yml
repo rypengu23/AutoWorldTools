@@ -1,0 +1,60 @@
+###########################################
+# メッセージファイル
+version: 1.0
+language: "日本語"
+###########################################
+
+# 接頭辞
+prefix: "[AWT]"
+
+# 曜日
+sunday: "日曜日"
+monday: "月曜日"
+tuesday: "火曜日"
+wednesday: "水曜日"
+thursday: "木曜日"
+friday: "金曜日"
+saturday: "土曜日"
+
+# 時間の単位
+# カウントダウンで利用します。
+# 時
+hour: "時間"
+hours: "時間"
+# 分
+minute: "分"
+minutes: "分"
+# 秒
+second: "秒"
+seconds: "秒"
+
+# リセット前カウントダウン
+# {countdown}:リセットまでの時間 (○○時間○○分○○秒)
+resetCountdown: "&f{countdown}後にワールドのリセットを行います。"
+
+# リセット開始
+resetStart: "&fワールドリセットを開始します。"
+
+# リセット完了
+resetComplete: "&fワールドリセットが完了しました。"
+
+# バックアップ前カウントダウン
+# {countdown}:バックアップまでの時間 (○○時間○○分○○秒)
+backupCountdown: "&f{countdown}後にワールドデータのバックアップを行います。"
+
+# バックアップ開始
+backupStart: "&fワールドバックアップを開始します。"
+
+# バックアップ完了
+backupComplete: "&fワールドバックアップが完了しました。"
+
+# リセット時間情報（/awt reset info 実行時のメッセージ)
+# {dayofweek}:曜日
+# {time}:リセット時刻
+resetTimeInfo: "&fワールドのリセットは毎週&a{dayofweek}&fの§a{time}§fに行われます。"
+
+# バックアップ時間情報（/awt backup info 実行時のメッセージ)
+# {dayofweek}:曜日
+# {time}:バックアップ時刻
+backupTimeInfo: "&fワールドのバックアップは毎週&a{dayofweek}&fの§a{time}§fに行われます。"
+
