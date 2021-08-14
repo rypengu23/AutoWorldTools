@@ -36,7 +36,7 @@ Multiverse-Portalsを導入している場合、再生性後もワープゲー�
 ポータルの再設定や、ワープゲート(構造物)の設置を行えます。
 >You can reconfigure the portal and generate warp gates (structures).
 
-# コマンド
+# コマンド | Commands
 
 * /awt reset [world type(normal/nether/end)]
 
