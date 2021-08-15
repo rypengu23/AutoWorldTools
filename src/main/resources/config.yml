@@ -7,7 +7,7 @@
 #
 # @author     rypengu23
 # @copyright  Copyright ryoengu23 2021
-version: 1.0
+version: 1.1
 # =======================================
 
 setting:
@@ -15,13 +15,13 @@ setting:
   # アナウンス・コマンド実行時の言語
   # en:English
   # ja:日本語
-  language: "ja"
+  language: "en"
 
   # ConsoleLanguage (en/ja)
   # コンソールメッセージの言語
   # en:English
   # ja:日本語
-  consoleLanguage: "ja"
+  consoleLanguage: "en"
 
   # Whether to reset the world at the specified time.（true/false）
   # 指定時刻に自動でリセットするかどうか

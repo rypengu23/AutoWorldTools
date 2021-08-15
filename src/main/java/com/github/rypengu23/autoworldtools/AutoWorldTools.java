@@ -181,7 +181,7 @@ public final class AutoWorldTools extends JavaPlugin {
 
             } else {
                 //引数が無ければバージョン情報
-                sender.sendMessage("§a" + messageConfig.getPrefix() + " §fAutoWorldTools Ver1.0");
+                sender.sendMessage("§a" + messageConfig.getPrefix() + " §fAutoWorldTools Ver1.1");
                 sender.sendMessage("§a" + messageConfig.getPrefix() + " §fDeveloper: rypengu23");
             }
 
