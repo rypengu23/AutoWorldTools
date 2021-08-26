@@ -49,6 +49,9 @@ public class Command_Help {
         if(sender.hasPermission("autoWorldTools.backupInfo")){
             showList.add(CommandMessage.Command_Help_Backupinfo);
         }
+        if(sender.hasPermission("autoWorldTools.restartInfo")){
+            showList.add(CommandMessage.Command_Help_Restartinfo);
+        }
         if(sender.hasPermission("autoWorldTools.admin")){
             showList.add(CommandMessage.Command_Help_reload);
         }

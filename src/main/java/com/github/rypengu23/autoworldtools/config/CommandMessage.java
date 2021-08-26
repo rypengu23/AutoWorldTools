@@ -18,6 +18,7 @@ public class CommandMessage {
     public static String Command_Help_Backup = "§e/awt backup [world name] §f:Backs up the specified world.";
     public static String Command_Help_Resetinfo = "§e/awt reset info §f:Displays the automatic reset time.";
     public static String Command_Help_Backupinfo = "§e/awt backup info §f:Displays the automatic backup time.";
+    public static String Command_Help_Restartinfo = "§e/awt restart info §f:Displays the automatic restart time.";
     public static String Command_Help_reload = "§e/awt reload §f:Reload Config.";
     public static String Command_Help_LineLast = "§b――――――――――――――――――――――――――――――――";
 
@@ -46,6 +47,7 @@ public class CommandMessage {
             Command_Help_Backup = "§e/awt backup [ﾜｰﾙﾄﾞ名] §f: 指定したﾜｰﾙﾄﾞをバックアップ。";
             Command_Help_Resetinfo = "§e/awt reset info §f: 自動リセット時刻を表示。";
             Command_Help_Backupinfo = "§e/awt backup info §f: 自動バックアップ時刻を表示。";
+            Command_Help_Restartinfo = "§e/awt restart info §f:自動再起動時刻を表示。";
             Command_Help_reload = "§e/awt reload §f: Configをリロード。";
             Command_Help_LineLast = "§b――――――――――――――――――――――――――――――――――――――――";
         } else if(mainConfig.getLanguage().equals("en")){
@@ -65,6 +67,7 @@ public class CommandMessage {
             Command_Help_Backup = "§e/awt backup [world name] §f:Backs up the specified world.";
             Command_Help_Resetinfo = "§e/awt reset info §f:Displays the automatic reset time.";
             Command_Help_Backupinfo = "§e/awt backup info §f:Displays the automatic backup time.";
+            Command_Help_Restartinfo = "§e/awt restart info §f:Displays the automatic restart time.";
             Command_Help_reload = "§e/awt reload §f:Reload Config.";
             Command_Help_LineLast = "§b――――――――――――――――――――――――――――――――";
         }
