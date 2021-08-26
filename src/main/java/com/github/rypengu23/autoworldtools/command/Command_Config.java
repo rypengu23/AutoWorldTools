@@ -4,6 +4,7 @@ import com.github.rypengu23.autoworldtools.AutoWorldTools;
 import com.github.rypengu23.autoworldtools.config.*;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiversePortals.MultiversePortals;
+import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -49,6 +50,17 @@ public class Command_Config {
                 Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadCompMultiversePortals);
             }catch(NoClassDefFoundError e){
                 Bukkit.getLogger().warning("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadFailureMultiversePortals);
+            }
+        }
+
+        //DiscordSRV再読み込み
+        if(mainConfig.isUseDiscordSRV()){
+            try {
+                Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadDiscordSRV);
+                AutoWorldTools.discordSRV = (DiscordSRV) Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV");
+                Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadCompDiscordSRV);
+            }catch(NoClassDefFoundError e){
+                Bukkit.getLogger().warning("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadFailureDiscordSRV);
             }
         }
 
