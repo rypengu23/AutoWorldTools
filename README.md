@@ -36,6 +36,11 @@ Multiverse-Portalsを導入している場合、再生性後もワープゲー�
 ポータルの再設定や、ワープゲート(構造物)の設置を行えます。
 >You can reconfigure the portal and generate warp gates (structures).
 
+
+* DiscordSRV
+自動リセット/バックアップ/再起動時にメッセージ送信を行えます。
+>You can send messages during automatic reset, backup, and restart.
+
 # コマンド | Commands
 
 * /awt reset [world type(normal/nether/end)]
@@ -50,6 +55,10 @@ Multiverse-Portalsを導入している場合、再生性後もワープゲー�
 自動リセット時刻の情報を表示します。
 >Displays information on the automatic reset time.
 * /awt backup info
+
+自動再起動時刻の情報を表示します。
+>Displays information on the automatic restart time.
+* /awt restart info
 
 自動バックアップ時刻の情報を表示します。
 >Displays information on the automatic backup time.
@@ -84,3 +93,6 @@ Configをリロードします。
 
 バックアップ時刻情報を表示出来ます。
 >You can display the backup time information.
+
+サーバー再起動時刻情報を表示出来ます。
+>You can display the server restart time information.
