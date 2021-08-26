@@ -54,11 +54,11 @@ Multiverse-Portalsを導入している場合、再生性後もワープゲー�
 
 自動リセット時刻の情報を表示します。
 >Displays information on the automatic reset time.
-* /awt backup info
+* /awt restart info
 
 自動再起動時刻の情報を表示します。
 >Displays information on the automatic restart time.
-* /awt restart info
+* /awt backup info
 
 自動バックアップ時刻の情報を表示します。
 >Displays information on the automatic backup time.
