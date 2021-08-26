@@ -1,7 +1,15 @@
 ###########################################
 # Message file
-version: 1.1
+version: 1.2
 language: "English"
+# ↑↑ Do not edit ↑↑
+###########################################
+# If you do not want to send the message,
+# please empty the message.
+###########################################
+
+###########################################
+# Word settings　※All required
 ###########################################
 
 # Prefix
@@ -27,15 +35,39 @@ minutes: "minutes"
 second: "second"
 seconds: "seconds"
 
+###########################################
+# Reset Announce
+###########################################
+
+# reset time information（/awt reset info)
+# {dayofweek}:dayofweek
+# {time}:reset time
+resetTimeInfo: "&fThe World Reset takes place every {dayofweek} at {time}."
+
 # Countdown before reset
 # {countdown}:Time to reset (○○hours○○minutes○○seconds)
 countdown: "&fWorld reset will be performed after {countdown}."
 
 # Reset start
-resetStart: "&fReset start."
+resetStart: "&fWorld reset start."
+
+# Reset start(Discord)
+resetStartOfDiscord: ":small_orange_diamond: **World reset start.**"
 
 # Reset complete
-resetComplete: "&fReset complete."
+resetComplete: "&fWorld reset complete."
+
+# Reset complete(Discord)
+resetCompleteOfDiscord: ":small_blue_diamond: **World reset complete.**"
+
+###########################################
+# Backup Announce
+###########################################
+
+# Backup time information（/awt backup info)
+# {dayofweek}:day of week
+# {time}:backup time
+backupTimeInfo: "&fWorlds Backup takes place every {dayofweek} at {time}."
 
 # Countdown before backup
 # {countdown}:Time to backup (○○hours○○minutes○○seconds)
@@ -44,16 +76,30 @@ backupCountdown: "&fWorld backup will be performed after {countdown}."
 # Backup start
 backupStart: "&fBackup start."
 
+# Backup start(Discord)
+backupStartOfDiscord: ":small_orange_diamond: **Backup start.**"
+
 # Backup complete
 backupComplete: "&fBackup complete."
 
-# reset time information（/awt reset info)
-# {dayofweek}:dayofweek
-# {time}:reset time
-resetTimeInfo: "&fThe World Reset takes place every {dayofweek} at {time}."
+# Backup complete(Discord)
+backupCompleteOfDiscord: ":small_blue_diamond: **Backup complete.**"
 
-# Backup time information（/awt backup info)
-# {dayofweek}:dayofweek
+###########################################
+# Server restart announce
+###########################################
+
+# Restart time information（/awt restart info)
+# {dayofweek}:day of week
 # {time}:backup time
-backupTimeInfo: "&fWorlds Backup takes place every {dayofweek} at {time}."
+restartTimeInfo: "&fThe server will be restarted every {dayofweek} at {time}."
 
+# Countdown before restart
+# {countdown}:Time to restart (○○hours○○minutes○○seconds)
+restartCountdown: "&fThe server will restart after {countdown}."
+
+# Restart start
+restartStart: "&fRestart the server."
+
+# Restart start(Discord)
+restartStartOfDiscord: ":small_orange_diamond: **Restart the server.**"

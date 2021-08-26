@@ -7,7 +7,7 @@
 #
 # @author     rypengu23
 # @copyright  Copyright ryoengu23 2021
-version: 1.1
+version: 1.2
 # =======================================
 
 setting:
@@ -23,12 +23,19 @@ setting:
   # ja:日本語
   consoleLanguage: "en"
 
-  # Whether to reset the world at the specified time.（true/false）
+  # Whether to reset automatically at the set time.（true/false）
   # 指定時刻に自動でリセットするかどうか
   autoReset: true
-  # Whether to backup the world at the specified time.（true/false）
+  # Whether to backup automatically at the set time.（true/false）
   # 指定時刻に自動でバックアップするかどうか
   autoBackup: true
+  # Whether to restart automatically at the set time.（true/false）
+  # 指定時刻に自動で再起動するかどうか
+  autoRestart: true
+
+  #リセット・バックアップ完了時にDiscordSRVのメインチャンネルにメッセージを送信するかどうか
+  useDiscordSRV: false
+
   # Maximum storage amount
   # バックアップの保存上限数
   backupLimit: 30
@@ -152,3 +159,26 @@ backupLocation:
   # Backup storage location
   # バックアップの保存先
   fileLocation: "C:/worldBackup/"
+
+# =======================================
+#  Restart setting
+# =======================================
+
+restartTime:
+  # Day of the week for automatic restart. (sun,mon,tue,wed,thu,fri,sat)
+  # サーバー再起動を行う曜日
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載 (,)
+  restartDayOfTheWeek: "sun"
+
+  # Restart time
+  # サーバー再起動を行う時刻（hh:mm)
+  # If you specify more than one, separate them with commas. (,)
+  # 複数指定する場合、カンマ区切りで記載
+  restartTime: "00:00"
+
+  # Notify before restart time. (second)
+  # サーバー再起動時刻何秒前に通知するか（秒)
+  # If you specify more than one, separate them with commas. (,) Blank if you do not want to be notified.
+  # 複数指定する場合、カンマ区切りで記載。通知を行わない場合、空白のみにする。
+  restartNotifyTime: "300,60,30,10,5,4,3,2,1"

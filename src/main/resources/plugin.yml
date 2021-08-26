@@ -1,10 +1,10 @@
 name: AutoWorldTools
-version: 1.0
+version: 1.2
 main: com.github.rypengu23.autoworldtools.AutoWorldTools
 api-version: 1.16
 authors: [ rypengu23 ]
 description: World auto reset plugin
-softdepend: ['Multiverse-Core', 'Multiverse-Portals']
+softdepend: ['Multiverse-Core', 'Multiverse-Portals', 'DiscordSRV']
 
 commands:
   autoworldtools:
@@ -25,6 +25,7 @@ permissions:
       autoWorldTools.backup: true
       autoWorldTools.resetInfo: true
       autoWorldTools.backupInfo: true
+      autoWorldTools.restartInfo: true
   autoWorldTools.reset:
     description: 手動でConfigに登録されたワールドのリセット可能
     default: op
@@ -36,4 +37,7 @@ permissions:
     default: true
   autoWorldTools.backupInfo:
     description: バックアップ時刻情報閲覧可
+    default: true
+  autoWorldTools.restartInfo:
+    description: 再起動時刻情報閲覧可
     default: true

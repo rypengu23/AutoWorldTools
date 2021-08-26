@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -35,15 +36,132 @@ public class BackupUtil {
     }
 
     /**
-     * Configに記載された全ワールドのバックアップ・古いファイルの削除を行う。
+     * 現在時刻がバックアップ実行時刻か判定
+     *
+     * @param nowCalendar
+     * @return
      */
-    public void worldsBackup() {
+    public boolean checkBackupTime(Calendar nowCalendar) {
 
-        for (String worldName : mainConfig.getBackupWorldName()) {
-            createWorldFileZip(worldName);
-            deleteOldFile(worldName);
+        CheckUtil checkUtil = new CheckUtil();
+        ConvertUtil convertUtil = new ConvertUtil();
+
+        //バックアップ時刻リストを取得
+        ArrayList<Calendar> backupTimeList = convertUtil.convertCalendar(mainConfig.getBackupDayOfTheWeekList(), mainConfig.getBackupTimeList());
+
+        //比較
+        if (backupTimeList != null) {
+            for (Calendar backupTime : backupTimeList) {
+                if (checkUtil.checkComparisonTime(nowCalendar, backupTime)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 現在時刻がバックアップ前アナウンス時刻か判定。
+     * 戻り地が-1の場合、アナウンス時刻ではない。
+     *
+     * @param nowCalendar
+     * @return
+     */
+    public int checkAnnounceBeforeBackupTime(Calendar nowCalendar) {
+
+        CheckUtil checkUtil = new CheckUtil();
+        ConvertUtil convertUtil = new ConvertUtil();
+
+        //リセット時刻リストを取得
+        ArrayList<Calendar> backupTimeList = convertUtil.convertCalendar(mainConfig.getBackupDayOfTheWeekList(), mainConfig.getBackupTimeList());
+
+        //比較
+        if (backupTimeList != null) {
+            for (Calendar backupTime : backupTimeList) {
+                int result = checkUtil.checkComparisonTimeOfList(nowCalendar, backupTime, mainConfig.getBackupNotifyTimeList());
+                if (result != -1) {
+                    return result;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Configに記載された全ワールドをバックアップ
+     * メッセージ等も送信
+     */
+    public void autoBackup() {
+
+        CheckUtil checkUtil = new CheckUtil();
+
+
+
+        Runnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                //メッセージが空白で無ければ送信
+                //リセット開始メッセージ
+                if (!checkUtil.checkNullOrBlank(messageConfig.getBackupStart())) {
+                    Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getBackupStart());
+                }
+
+                //メッセージが空白で無ければ送信
+                //バックアップ開始メッセージ(Discord)
+                if (mainConfig.isUseDiscordSRV() && !checkUtil.checkNullOrBlank(messageConfig.getBackupStartOfDiscord())) {
+                    DiscordUtil discordUtil = new DiscordUtil();
+                    discordUtil.sendMessageMainChannel(messageConfig.getBackupStartOfDiscord());
+                }
+
+                //全ワールドバックアップ
+                for (String worldName : mainConfig.getBackupWorldName()) {
+                    createWorldFileZip(worldName);
+                    deleteOldFile(worldName);
+                }
+
+                //メッセージが空白で無ければ送信
+                //バックアップ完了メッセージ
+                if (!checkUtil.checkNullOrBlank(messageConfig.getBackupComplete())) {
+                    Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getBackupComplete());
+                }
+
+                //メッセージが空白で無ければ送信
+                //バックアップ完了メッセージ(Discord)
+                if (mainConfig.isUseDiscordSRV() && !checkUtil.checkNullOrBlank(messageConfig.getBackupCompleteOfDiscord())) {
+                    DiscordUtil discordUtil = new DiscordUtil();
+                    discordUtil.sendMessageMainChannel(messageConfig.getBackupCompleteOfDiscord());
+                }
+                AutoWorldTools.backupTask = null;
+
+            }
+        };
+
+        AutoWorldTools.backupTask = Bukkit.getServer().getScheduler().runTaskAsynchronously(AutoWorldTools.getInstance(), runnable);
+
+    }
+
+    /**
+     * 引数のカウントダウン秒数をもとに、メッセージを送信。
+     *
+     * @param second
+     */
+    public void sendNotify(int second) {
+
+        CheckUtil checkUtil = new CheckUtil();
+        ConvertUtil convertUtil = new ConvertUtil();
+
+        if (second <= 0) {
+            return;
         }
 
+        String countdownStr = convertUtil.createCountdown(second, messageConfig);
+
+        //メッセージが空白で無ければ送信
+        //カウントダウンメッセージ
+        if (!checkUtil.checkNullOrBlank(messageConfig.getResetCountdown())) {
+            Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + convertUtil.placeholderUtil("{countdown}", countdownStr, messageConfig.getBackupCountdown()));
+        }
     }
 
     /**
@@ -54,7 +172,7 @@ public class BackupUtil {
     public void createWorldFileZip(String worldName) {
 
 
-        Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.BackupUtil_startZip + worldName);
+        Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.BackupUtil_startZip + worldName);
 
         //ファイル名用日付取得
         Date nowDate = new Date();
@@ -93,7 +211,7 @@ public class BackupUtil {
             new ZipFile(mainConfig.getBackupLocation() + worldName + "/" + worldName + zipFileName + ".zip").addFolder(workDirectory, params);
         } catch (ZipException e) {
             e.printStackTrace();
-            Bukkit.getLogger().warning("[AutoWorldTools] "+ ConsoleMessage.BackupUtil_backupFailure + worldName);
+            Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.BackupUtil_backupFailure + worldName);
         }
 
 
@@ -104,7 +222,7 @@ public class BackupUtil {
             e.printStackTrace();
         }
 
-        Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.BackupUtil_compZip + worldName);
+        Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.BackupUtil_compZip + worldName);
 
 
     }
@@ -147,119 +265,5 @@ public class BackupUtil {
         }
 
     }
-
-    /**
-     * バックアップ時刻をチェックし、バックアップ・通知を実行
-     */
-    public void backupTimeCheck() {
-
-        BackupUtil backupUtil = new BackupUtil();
-        CheckUtil checkUtil = new CheckUtil();
-        ConvertUtil convertUtil = new ConvertUtil();
-
-        String[] weekNameJP = {"日", "月", "火", "水", "木", "金", "土"};
-        String[] weekNameEN = {"sun", "mon", "tue", "wed", "thu", "fri", "sat"};
-
-        //現在の時刻を取得
-        Calendar nowCalendar = Calendar.getInstance();
-
-        //バックアップ曜日を取得
-        ArrayList<Integer> backupDayOfWeekNumberList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            for (String backupDay : mainConfig.getBackupDayOfTheWeekList()) {
-                if (backupDay.equals(weekNameJP[i]) || backupDay.equals(weekNameEN[i])) {
-                    backupDayOfWeekNumberList.add(i + 1);
-                }
-            }
-        }
-
-        //バックアップ曜日・時間をリスト化
-        ArrayList<Calendar> backupTimeList = new ArrayList<>();
-
-        for (int dayOfWeek : backupDayOfWeekNumberList) {
-            for (String time : mainConfig.getBackupTimeList()) {
-                Calendar work = (Calendar) nowCalendar.clone();
-                work.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-                work.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
-                work.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
-                work.set(Calendar.SECOND, 0);
-                backupTimeList.add(work);
-            }
-        }
-
-        //現在時刻とリセット前通知時刻が同一か
-        for (Calendar backupTime : backupTimeList) {
-
-            //現在時刻とリセット前通知時刻が同一か
-            for (int notifyTime : mainConfig.getBackupNotifyTimeList()) {
-                Calendar work = (Calendar) backupTime.clone();
-                work.add(Calendar.SECOND, -notifyTime);
-
-                //曜日・時・分・秒が同一かどうか
-                if (nowCalendar.get(Calendar.DAY_OF_WEEK) == work.get(Calendar.DAY_OF_WEEK) && nowCalendar.get(Calendar.HOUR_OF_DAY) == work.get(Calendar.HOUR_OF_DAY) && nowCalendar.get(Calendar.MINUTE) == work.get(Calendar.MINUTE) && nowCalendar.get(Calendar.SECOND) == work.get(Calendar.SECOND)) {
-                    //同一な場合
-                    //残り時間を計算
-                    int hour = notifyTime / 3600;
-                    int minute = (notifyTime % 3600) / 60;
-                    int second = notifyTime - (hour * 3600) - (minute * 60);
-                    StringBuilder countdownStr = new StringBuilder();
-                    if (hour != 0) {
-                        countdownStr.append(hour);
-                        if (hour == 1) {
-                            countdownStr.append(messageConfig.getHour());
-                        } else {
-                            countdownStr.append(messageConfig.getHours());
-                        }
-                    }
-                    if (minute != 0) {
-                        countdownStr.append(minute);
-                        if (minute == 1) {
-                            countdownStr.append(messageConfig.getMinute());
-                        } else {
-                            countdownStr.append(messageConfig.getMinutes());
-                        }
-                    }
-                    if (second != 0) {
-                        countdownStr.append(second);
-                        if (second == 1) {
-                            countdownStr.append(messageConfig.getSecond());
-                        } else {
-                            countdownStr.append(messageConfig.getSeconds());
-                        }
-                    }
-                    Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + convertUtil.placeholderUtil("{countdown}", countdownStr.toString(), messageConfig.getBackupCountdown()));
-
-                    //処理終了
-                    return;
-                }
-            }
-
-            //現在時刻とバックアップ時刻が同一か
-            if (backupTime.get(Calendar.DAY_OF_WEEK) == nowCalendar.get(Calendar.DAY_OF_WEEK) && backupTime.get(Calendar.HOUR_OF_DAY) == nowCalendar.get(Calendar.HOUR_OF_DAY) && backupTime.get(Calendar.MINUTE) == nowCalendar.get(Calendar.MINUTE) && backupTime.get(Calendar.SECOND) == nowCalendar.get(Calendar.SECOND)) {
-
-                //バックアップ実行
-                Runnable runnable = new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        //メッセージが空白で無ければ送信
-                        if (!checkUtil.checkNullOrBlank(messageConfig.getBackupStart())) {
-                            Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getBackupStart());
-                        }
-
-                        //バックアップ処理
-                        backupUtil.worldsBackup();
-
-                        //メッセージが空白で無ければ送信
-                        if (!checkUtil.checkNullOrBlank(messageConfig.getBackupComplete())) {
-                            Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getBackupComplete());
-                        }
-                    }
-                };
-
-                Bukkit.getServer().getScheduler().runTaskAsynchronously(AutoWorldTools.getInstance(), runnable);
-            }
-        }
-    }
-
 
 }

@@ -5,6 +5,12 @@ import org.bukkit.configuration.Configuration;
 
 public class MessageConfig {
 
+    //バージョン
+    private Double version;
+
+    //////////////////////////////
+    //単語設定
+    //////////////////////////////
     //接頭辞
     private String prefix;
 
@@ -29,28 +35,58 @@ public class MessageConfig {
     private String second;
     private String seconds;
 
+    //////////////////////////////
+    //リセット関連
+    //////////////////////////////
+
+    //リセット時間情報
+    private String resetTimeInfo;
     //リセット前カウントダウン
     private String resetCountdown;
     //リセット開始
     private String resetStart;
+    //リセット開始(Discord)
+    private String resetStartOfDiscord;
     //リセット完了
     private String resetComplete;
+    //リセット完了(Discord)
+    private String resetCompleteOfDiscord;
 
+    //////////////////////////////
+    //バックアップ関連
+    //////////////////////////////
+
+    //バックアップ時間情報
+    private String backupTimeInfo;
     //バックアップ前カウントダウン
     private String backupCountdown;
     //バックアップ開始
     private String backupStart;
+    //バックアップ開始(Discord)
+    private String backupStartOfDiscord;
     //バックアップ完了
     private String backupComplete;
+    //バックアップ完了(Discord)
+    private String backupCompleteOfDiscord;
 
-    //リセット時間情報
-    private String resetTimeInfo;
-    //バックアップ時間情報
-    private String backupTimeInfo;
+    //////////////////////////////
+    //再起動関連
+    //////////////////////////////
+
+    //再起動時間情報
+    private String restartTimeInfo;
+    //再起動前カウントダウン
+    private String restartCountdown;
+    //再起動開始
+    private String restartStart;
+    //再起動開始(Discord)
+    private String restartStartOfDiscord;
 
     public MessageConfig(Configuration config) {
 
         ConvertUtil convertUtil = new ConvertUtil();
+
+        version = config.getDouble("version");
 
         prefix = convertUtil.convertColorCode(config.getString("prefix"));
         sunday = config.getString("sunday");
@@ -66,14 +102,33 @@ public class MessageConfig {
         minutes = config.getString("minutes");
         second = config.getString("second");
         seconds = config.getString("seconds");
+
+        resetTimeInfo = convertUtil.convertColorCode(config.getString("resetTimeInfo"));
         resetCountdown = convertUtil.convertColorCode(config.getString("resetCountdown"));
         resetStart = convertUtil.convertColorCode(config.getString("resetStart"));
+        resetStartOfDiscord = config.getString("resetStartOfDiscord");
         resetComplete = convertUtil.convertColorCode(config.getString("resetComplete"));
+        resetCompleteOfDiscord = config.getString("resetCompleteOfDiscord");
+
+        backupTimeInfo = convertUtil.convertColorCode(config.getString("backupTimeInfo"));
         backupCountdown = convertUtil.convertColorCode(config.getString("backupCountdown"));
         backupStart = convertUtil.convertColorCode(config.getString("backupStart"));
+        backupStartOfDiscord = config.getString("backupStartOfDiscord");
         backupComplete = convertUtil.convertColorCode(config.getString("backupComplete"));
-        resetTimeInfo = convertUtil.convertColorCode(config.getString("resetTimeInfo"));
-        backupTimeInfo = convertUtil.convertColorCode(config.getString("backupTimeInfo"));
+        backupCompleteOfDiscord = config.getString("backupCompleteOfDiscord");
+
+        restartTimeInfo = convertUtil.convertColorCode(config.getString("restartTimeInfo"));
+        restartCountdown = convertUtil.convertColorCode(config.getString("restartCountdown"));
+        restartStart = convertUtil.convertColorCode(config.getString("restartStart"));
+        restartStartOfDiscord = config.getString("restartStartOfDiscord");
+    }
+
+    public Double getVersion() {
+        return version;
+    }
+
+    public void setVersion(Double version) {
+        this.version = version;
     }
 
     public String getPrefix() {
@@ -192,6 +247,15 @@ public class MessageConfig {
         this.seconds = seconds;
     }
 
+
+    public String getResetTimeInfo() {
+        return resetTimeInfo;
+    }
+
+    public void setResetTimeInfo(String resetTimeInfo) {
+        this.resetTimeInfo = resetTimeInfo;
+    }
+
     public String getResetCountdown() {
         return resetCountdown;
     }
@@ -208,12 +272,28 @@ public class MessageConfig {
         this.resetStart = resetStart;
     }
 
+    public String getResetStartOfDiscord() {
+        return resetStartOfDiscord;
+    }
+
     public String getResetComplete() {
         return resetComplete;
     }
 
     public void setResetComplete(String resetComplete) {
         this.resetComplete = resetComplete;
+    }
+
+    public String getResetCompleteOfDiscord() {
+        return resetCompleteOfDiscord;
+    }
+
+    public String getBackupTimeInfo() {
+        return backupTimeInfo;
+    }
+
+    public void setBackupTimeInfo(String backupTimeInfo) {
+        this.backupTimeInfo = backupTimeInfo;
     }
 
     public String getBackupCountdown() {
@@ -228,31 +308,33 @@ public class MessageConfig {
         return backupStart;
     }
 
-    public void setBackupStart(String backupStart) {
-        this.backupStart = backupStart;
+    public String getBackupStartOfDiscord() {
+        return backupStartOfDiscord;
     }
 
     public String getBackupComplete() {
         return backupComplete;
     }
 
-    public void setBackupComplete(String backupComplete) {
-        this.backupComplete = backupComplete;
+    public String getBackupCompleteOfDiscord() {
+        return backupCompleteOfDiscord;
     }
 
-    public String getResetTimeInfo() {
-        return resetTimeInfo;
+    public String getRestartTimeInfo() {
+        return restartTimeInfo;
     }
 
-    public void setResetTimeInfo(String resetTimeInfo) {
-        this.resetTimeInfo = resetTimeInfo;
+
+    public String getRestartCountdown() {
+        return restartCountdown;
     }
 
-    public String getBackupTimeInfo() {
-        return backupTimeInfo;
+
+    public String getRestartStart() {
+        return restartStart;
     }
 
-    public void setBackupTimeInfo(String backupTimeInfo) {
-        this.backupTimeInfo = backupTimeInfo;
+    public String getRestartStartOfDiscord() {
+        return restartStartOfDiscord;
     }
 }

@@ -2,11 +2,10 @@ package com.github.rypengu23.autoworldtools;
 
 import com.github.rypengu23.autoworldtools.command.*;
 import com.github.rypengu23.autoworldtools.config.*;
-import com.github.rypengu23.autoworldtools.util.CheckUtil;
-import com.github.rypengu23.autoworldtools.util.ConvertUtil;
 import com.github.rypengu23.autoworldtools.watch.TimeSurveillance;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiversePortals.MultiversePortals;
+import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,12 +14,15 @@ import org.bukkit.scheduler.BukkitTask;
 
 public final class AutoWorldTools extends JavaPlugin {
 
+    //バージョン
+    public static double pluginVersion = 1.2;
+
     //インスタンス
     private static AutoWorldTools instance = null;
 
     //タスク保管
-    public static BukkitTask resetTimeSurveillance;
-    public static BukkitTask backupTimeSurveillance;
+    public static BukkitTask timeSurveillance;
+    public static BukkitTask backupTask;
 
     //Config
     private ConfigLoader configLoader;
@@ -30,6 +32,9 @@ public final class AutoWorldTools extends JavaPlugin {
     //Multiverse
     public static MultiverseCore core;
     public static MultiversePortals portals;
+
+    //DiscordSRV
+    public static DiscordSRV discordSRV;
 
     public static boolean resetStatus;
 
@@ -44,19 +49,27 @@ public final class AutoWorldTools extends JavaPlugin {
         mainConfig = configLoader.getMainConfig();
         messageConfig = configLoader.getMessageConfig();
 
+        //起動メッセージ
+        //Startup message
+        Bukkit.getLogger().info("[AutoWorldTools] == AutoWorldTools Ver1.2 ==");
+        Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_startupPlugin);
+
+        //Configの更新確認
+        ConfigUpdater configUpdater = new ConfigUpdater();
+        if(configUpdater.configUpdateCheck() == true){
+            configLoader = new ConfigLoader();
+            configLoader.reloadConfig();
+            mainConfig = configLoader.getMainConfig();
+            messageConfig = configLoader.getMessageConfig();
+        }
 
         //Consoleメッセージの言語切替
         //Chose console language
-        ConsoleMessage consoleMessage = new ConsoleMessage(mainConfig);
-        consoleMessage.changeLanguageConsoleMessages();
+        //ConsoleMessage consoleMessage = new ConsoleMessage(mainConfig);
+        //consoleMessage.changeLanguageConsoleMessages();
 
-        CommandMessage commandMessage = new CommandMessage(mainConfig);
-        commandMessage.changeLanguageCommandMessages();
-
-        //起動メッセージ
-        //Startup message
-        Bukkit.getLogger().info("[AutoWorldTools] == AutoWorldTools Ver1.0 ==");
-        Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_startupPlugin);
+        //CommandMessage commandMessage = new CommandMessage(mainConfig);
+        //commandMessage.changeLanguageCommandMessages();
 
         try {
             //Multiverse-Core接続
@@ -80,6 +93,16 @@ public final class AutoWorldTools extends JavaPlugin {
                 Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadFailureMultiversePortals);
             }
         }
+        if (mainConfig.isUseDiscordSRV()) {
+            //DiscordSRV接続
+            try {
+                Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadDiscordSRV);
+                discordSRV = (DiscordSRV) Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV");
+                Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadCompDiscordSRV);
+            } catch (NoClassDefFoundError e) {
+                Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadFailureDiscordSRV);
+            }
+        }
 
         //コマンド入力時の入力補助
         //Command tab complete
@@ -93,8 +116,7 @@ public final class AutoWorldTools extends JavaPlugin {
         if (mainConfig.isAutoReset()) {
             Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_startupScheduler);
             TimeSurveillance timeSurveillance = new TimeSurveillance();
-            timeSurveillance.backupTimeSurveillance();
-            timeSurveillance.resetTimeSurveillance();
+            timeSurveillance.timeSurveillance();
         }
 
         //バックアップ時刻監視
@@ -129,7 +151,7 @@ public final class AutoWorldTools extends JavaPlugin {
                     } else if (args[0].equalsIgnoreCase("help")) {
                         //helpコマンド ページ1
                         Command_Help command_help = new Command_Help();
-                         command_help.showHelp(sender, "0");
+                        command_help.showHelp(sender, "0");
                     } else {
                         //コマンドの形式が不正な場合
                         sender.sendMessage("§c" + messageConfig.getPrefix() + " §f" + CommandMessage.AutoWorldTools_CommandFailure);
@@ -166,6 +188,17 @@ public final class AutoWorldTools extends JavaPlugin {
                         } else {
                             backup.backupWorld(sender, args[1]);
                         }
+
+                    } else if (args[0].equalsIgnoreCase("restart")) {
+                        //再起動
+                        Command_Restart restart = new Command_Restart();
+                        if (args[1].equalsIgnoreCase("info")) {
+                            restart.showRestartInfo(sender);
+                        } else {
+                            //コマンドの形式が不正な場合
+                            sender.sendMessage("§c" + messageConfig.getPrefix() + " §f" + CommandMessage.AutoWorldTools_CommandFailure);
+                        }
+
                     } else if (args[0].equalsIgnoreCase("help")) {
                         //helpコマンド
                         Command_Help command_help = new Command_Help();

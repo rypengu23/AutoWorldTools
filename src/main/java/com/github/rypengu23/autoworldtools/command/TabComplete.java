@@ -25,6 +25,9 @@ public class TabComplete implements TabCompleter {
             if(sender.hasPermission("autoWorldTools.backup") || sender.hasPermission("autoWorldTools.backupInfo")) {
                 onCompList.add("backup");
             }
+            if(sender.hasPermission("autoWorldTools.backup") || sender.hasPermission("autoWorldTools.restartInfo")) {
+                onCompList.add("restart");
+            }
             if(sender.hasPermission("autoWorldTools.reload")) {
                 onCompList.add("reload");
             }
@@ -52,6 +55,10 @@ public class TabComplete implements TabCompleter {
                     }
                 }
                 if(sender.hasPermission("autoWorldTools.backupInfo")){
+                    onCompList.add("info");
+                }
+            } else if(args[0].equalsIgnoreCase("restart")){
+                if(sender.hasPermission("autoWorldTools.restartInfo")){
                     onCompList.add("info");
                 }
             }

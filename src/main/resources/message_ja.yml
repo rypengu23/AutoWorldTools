@@ -1,7 +1,14 @@
 ###########################################
 # メッセージファイル
-version: 1.1
+version: 1.2
 language: "日本語"
+# ↑↑ 編集しないで下さい ↑↑
+###########################################
+# 表示したく無いメッセージは、空にして下さい。
+###########################################
+
+###########################################
+# 単語設定 (全て設定必須)
 ###########################################
 
 # 接頭辞
@@ -28,6 +35,15 @@ minutes: "分"
 second: "秒"
 seconds: "秒"
 
+###########################################
+# リセット関連
+###########################################
+
+# リセット時間情報（/awt reset info 実行時のメッセージ)
+# {dayofweek}:曜日
+# {time}:リセット時刻
+resetTimeInfo: "&fワールドのリセットは毎週&a{dayofweek}&fの§a{time}§fに行われます。"
+
 # リセット前カウントダウン
 # {countdown}:リセットまでの時間 (○○時間○○分○○秒)
 resetCountdown: "&f{countdown}後にワールドのリセットを行います。"
@@ -35,8 +51,23 @@ resetCountdown: "&f{countdown}後にワールドのリセットを行います�
 # リセット開始
 resetStart: "&fワールドリセットを開始します。"
 
+# リセット開始(Discord)
+resetStartOfDiscord: ":small_orange_diamond: **ワールドリセットを開始します。**"
+
 # リセット完了
 resetComplete: "&fワールドリセットが完了しました。"
+
+# リセット完了(Discord)
+resetCompleteOfDiscord: ":small_blue_diamond: **ワールドリセットが完了しました。**"
+
+###########################################
+# バックアップ関連
+###########################################
+
+# バックアップ時間情報（/awt backup info 実行時のメッセージ)
+# {dayofweek}:曜日
+# {time}:バックアップ時刻
+backupTimeInfo: "&fワールドのバックアップは毎週&a{dayofweek}&fの§a{time}§fに行われます。"
 
 # バックアップ前カウントダウン
 # {countdown}:バックアップまでの時間 (○○時間○○分○○秒)
@@ -45,16 +76,36 @@ backupCountdown: "&f{countdown}後にワールドデータのバックアップ�
 # バックアップ開始
 backupStart: "&fワールドバックアップを開始します。"
 
+# バックアップ開始(Discord)
+backupStartOfDiscord: ":small_orange_diamond: **ワールドバックアップを開始します。**"
+
 # バックアップ完了
 backupComplete: "&fワールドバックアップが完了しました。"
 
-# リセット時間情報（/awt reset info 実行時のメッセージ)
-# {dayofweek}:曜日
-# {time}:リセット時刻
-resetTimeInfo: "&fワールドのリセットは毎週&a{dayofweek}&fの§a{time}§fに行われます。"
+# バックアップ完了(Discord)
+backupCompleteOfDiscord: ":small_blue_diamond: **ワールドバックアップが完了しました。**"
 
-# バックアップ時間情報（/awt backup info 実行時のメッセージ)
+###########################################
+# 再起動関連
+###########################################
+
+# 再起動時間情報（/awt restart info 実行時のメッセージ)
 # {dayofweek}:曜日
-# {time}:バックアップ時刻
-backupTimeInfo: "&fワールドのバックアップは毎週&a{dayofweek}&fの§a{time}§fに行われます。"
+# {time}:再起動時刻
+restartTimeInfo: "&fサーバー再起動は毎週&a{dayofweek}&fの§a{time}§fに行われます。"
+
+# 再起動前カウントダウン
+# {countdown}:再起動までの時間 (○○時間○○分○○秒)
+restartCountdown: "&f{countdown}後にサーバーを再起動します。"
+
+# 再起動開始
+restartStart: "&fサーバーを再起動します。"
+
+# 再起動開始(Discord)
+restartStartOfDiscord: ":small_orange_diamond: **サーバーを再起動します。**"
+
+
+
+
+
 

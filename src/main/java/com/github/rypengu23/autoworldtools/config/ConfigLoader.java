@@ -2,9 +2,11 @@ package com.github.rypengu23.autoworldtools.config;
 
 import com.github.rypengu23.autoworldtools.AutoWorldTools;
 import jp.jyn.jbukkitlib.config.YamlLoader;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 public class ConfigLoader {
+
     private final YamlLoader mainLoader;
     private MainConfig mainConfig;
 
@@ -30,7 +32,11 @@ public class ConfigLoader {
         mainConfig = new MainConfig(mainLoader.getConfig());
 
         //MessageConfig
+        this.messageLoader = new YamlLoader(plugin, "message_ja.yml");
         messageLoader.saveDefaultConfig();
+        this.messageLoader = new YamlLoader(plugin, "message_en.yml");
+        messageLoader.saveDefaultConfig();
+        this.messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
         if (messageConfig != null) {
             this.messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
             messageLoader.reloadConfig();
@@ -46,12 +52,25 @@ public class ConfigLoader {
         consoleMessage.changeLanguageConsoleMessages();
     }
 
+    public void saveConfig(){
+        mainLoader.saveConfig();
+        messageLoader.saveConfig();
+    }
+
     public MainConfig getMainConfig() {
         return mainConfig;
     }
 
+    public void setMainConfig(MainConfig mainConfig){
+        this.mainConfig = mainConfig;
+    }
+
     public MessageConfig getMessageConfig() {
         return messageConfig;
+    }
+
+    public void setMessageConfig(MessageConfig messageConfig){
+        this.messageConfig = messageConfig;
     }
 
 }

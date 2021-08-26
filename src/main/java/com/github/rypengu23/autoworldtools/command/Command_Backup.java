@@ -42,6 +42,11 @@ public class Command_Backup {
             return;
         }
 
+        //バックアップ実行ステータスチェック
+        if(AutoWorldTools.backupTask != null){
+            return;
+        }
+
         Runnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -57,11 +62,11 @@ public class Command_Backup {
 
                 //バックアップ完了メッセージ
                 sender.sendMessage("§a" + messageConfig.getPrefix() + " §f" + CommandMessage.AutoWorldTools_CommandBackupComp + worldName);
-
+                AutoWorldTools.backupTask = null;
             }
         };
 
-        Bukkit.getServer().getScheduler().runTaskAsynchronously(AutoWorldTools.getInstance(), runnable);
+        AutoWorldTools.backupTask = Bukkit.getServer().getScheduler().runTaskAsynchronously(AutoWorldTools.getInstance(), runnable);
 
     }
 

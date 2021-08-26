@@ -26,6 +26,128 @@ public class ResetUtil {
     }
 
     /**
+     * 現在時刻がリセット実行時刻か判定
+     * @param nowCalendar
+     * @return
+     */
+    public boolean checkResetTime(Calendar nowCalendar){
+
+        CheckUtil checkUtil = new CheckUtil();
+        ConvertUtil convertUtil = new ConvertUtil();
+
+        //リセット時刻リストを取得
+        ArrayList<Calendar> resetTimeList = convertUtil.convertCalendar(mainConfig.getResetDayOfTheWeekList(), mainConfig.getResetTimeList());
+
+        //比較
+        if(resetTimeList != null) {
+            for (Calendar resetTime : resetTimeList) {
+                if (checkUtil.checkComparisonTime(nowCalendar, resetTime)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 現在時刻がリセット前アナウンス時刻か判定。
+     * 戻り地が-1の場合、アナウンス時刻ではない。
+     * @param nowCalendar
+     * @return
+     */
+    public int checkAnnounceBeforeResetTime(Calendar nowCalendar){
+
+        CheckUtil checkUtil = new CheckUtil();
+        ConvertUtil convertUtil = new ConvertUtil();
+
+        //リセット時刻リストを取得
+        ArrayList<Calendar> resetTimeList = convertUtil.convertCalendar(mainConfig.getResetDayOfTheWeekList(), mainConfig.getResetTimeList());
+
+        //比較
+        if(resetTimeList != null) {
+            for (Calendar resetTime : resetTimeList) {
+                int result = checkUtil.checkComparisonTimeOfList(nowCalendar, resetTime, mainConfig.getResetNotifyTimeList());
+                if (result != -1) {
+                    return result;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Configに登録された全ワールドをリセット・ゲート生成する。
+     * メッセージ等も送信
+     */
+    public void autoReset(){
+
+        CheckUtil checkUtil = new CheckUtil();
+        CreateWarpGateUtil createWarpGateUtil = new CreateWarpGateUtil();
+
+        //メッセージが空白で無ければ送信
+        //リセット開始メッセージ
+        if (!checkUtil.checkNullOrBlank(messageConfig.getResetStart())) {
+            Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getResetStart());
+        }
+
+        //メッセージが空白で無ければ送信
+        //リセット開始メッセージ(Discord)
+        if (mainConfig.isUseDiscordSRV() && !checkUtil.checkNullOrBlank(messageConfig.getResetStartOfDiscord())) {
+            DiscordUtil discordUtil = new DiscordUtil();
+            discordUtil.sendMessageMainChannel(messageConfig.getResetStartOfDiscord());
+        }
+
+        //全てのワールドのリセット
+        for (int i = 0; i <= 2; i++) {
+            regenerateWorld(i);
+        }
+
+        //全てのワールドへゲートを再生成
+        if (mainConfig.isUseMultiversePortals()) {
+            for (int i = 0; i <= 2; i++) {
+                if ((i == 0 && mainConfig.isGateAutoBuildOfNormal()) || (i == 1 && mainConfig.isGateAutoBuildOfNether()) || (i == 2 && mainConfig.isGateAutoBuildOfEnd())) {
+                    createWarpGateUtil.createWarpGateUtil(i);
+                }
+            }
+        }
+
+        //メッセージが空白で無ければ送信
+        //リセット完了メッセージ
+        if (!checkUtil.checkNullOrBlank(messageConfig.getResetComplete())) {
+            Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getResetComplete());
+        }
+
+        //メッセージが空白で無ければ送信
+        //リセット完了メッセージ(Discord)
+        if (mainConfig.isUseDiscordSRV() && !checkUtil.checkNullOrBlank(messageConfig.getResetCompleteOfDiscord())) {
+            DiscordUtil discordUtil = new DiscordUtil();
+            discordUtil.sendMessageMainChannel(messageConfig.getResetCompleteOfDiscord());
+        }
+    }
+
+    /**
+     * 引数のカウントダウン秒数をもとに、メッセージを送信。
+     * @param second
+     */
+    public void sendNotify(int second){
+
+        CheckUtil checkUtil = new CheckUtil();
+        ConvertUtil convertUtil = new ConvertUtil();
+
+        if(second <= 0){
+            return;
+        }
+
+        String countdownStr = convertUtil.createCountdown(second, messageConfig);
+
+        //メッセージが空白で無ければ送信
+        //カウントダウンメッセージ
+        if (!checkUtil.checkNullOrBlank(messageConfig.getResetCountdown())) {
+            Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + convertUtil.placeholderUtil("{countdown}", countdownStr, messageConfig.getResetCountdown()));
+        }
+    }
+
+    /**
      * 指定されたタイプの素材世界を再生成
      * 0:ノーマル 1:ネザー 2:ジエンド
      *
@@ -73,131 +195,6 @@ public class ResetUtil {
 
         } catch (NoClassDefFoundError e) {
             Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.ResetUtil_resetFailureNotConnectedMultiverseCore);
-        }
-    }
-
-    /**
-     * リセット時刻をチェックし、リセット・通知を実行
-     */
-    public void resetTimeCheck() {
-
-        ResetUtil resetUtil = new ResetUtil();
-        CreateWarpGateUtil createWarpGateUtil = new CreateWarpGateUtil();
-        CheckUtil checkUtil = new CheckUtil();
-        ConvertUtil convertUtil = new ConvertUtil();
-
-        String[] weekNameJP = {"日", "月", "火", "水", "木", "金", "土"};
-        String[] weekNameEN = {"sun", "mon", "tue", "wed", "thu", "fri", "sat"};
-
-        //現在の時刻を取得
-        Calendar nowCalendar = Calendar.getInstance();
-
-        //リセット曜日を取得
-        ArrayList<Integer> resetDayOfWeekNumberList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            for (String resetDay : mainConfig.getResetDayOfTheWeekList()) {
-                if (resetDay.equals(weekNameJP[i]) || resetDay.equals(weekNameEN[i])) {
-                    resetDayOfWeekNumberList.add(i + 1);
-                }
-            }
-        }
-
-        //リセット曜日・時間をリスト化
-        ArrayList<Calendar> resetTimeList = new ArrayList<>();
-
-        for (int dayOfWeek : resetDayOfWeekNumberList) {
-
-            for (String time : mainConfig.getResetTimeList()) {
-                Calendar work = (Calendar) nowCalendar.clone();
-                work.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-                work.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
-                work.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
-                work.set(Calendar.SECOND, 0);
-                resetTimeList.add(work);
-            }
-
-        }
-
-        //現在時刻とリセット前通知時刻が同一か
-        for (Calendar resetTime : resetTimeList) {
-
-            //現在時刻とリセット前通知時刻が同一か
-            for (int notifyTime : mainConfig.getResetNotifyTimeList()) {
-                Calendar work = (Calendar) resetTime.clone();
-                work.add(Calendar.SECOND, -notifyTime);
-
-                //曜日・時・分・秒が同一かどうか
-                if (nowCalendar.get(Calendar.DAY_OF_WEEK) == work.get(Calendar.DAY_OF_WEEK) && nowCalendar.get(Calendar.HOUR_OF_DAY) == work.get(Calendar.HOUR_OF_DAY) && nowCalendar.get(Calendar.MINUTE) == work.get(Calendar.MINUTE) && nowCalendar.get(Calendar.SECOND) == work.get(Calendar.SECOND)) {
-                    //同一な場合
-                    //残り時間を計算
-                    int hour = notifyTime / 3600;
-                    int minute = (notifyTime % 3600) / 60;
-                    int second = notifyTime - (hour * 3600) - (minute * 60);
-                    StringBuilder countdownStr = new StringBuilder();
-                    if (hour != 0) {
-                        countdownStr.append(hour);
-                        if (hour == 1) {
-                            countdownStr.append(messageConfig.getHour());
-                        } else {
-                            countdownStr.append(messageConfig.getHours());
-                        }
-                    }
-                    if (minute != 0) {
-                        countdownStr.append(minute);
-                        if (minute == 1) {
-                            countdownStr.append(messageConfig.getMinute());
-                        } else {
-                            countdownStr.append(messageConfig.getMinutes());
-                        }
-                    }
-                    if (second != 0) {
-                        countdownStr.append(second);
-                        if (second == 1) {
-                            countdownStr.append(messageConfig.getSecond());
-                        } else {
-                            countdownStr.append(messageConfig.getSeconds());
-                        }
-                    }
-
-                    //メッセージが空白で無ければ送信
-                    //カウントダウンメッセージ
-                    if (!checkUtil.checkNullOrBlank(messageConfig.getResetCountdown())) {
-                        Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + convertUtil.placeholderUtil("{countdown}", countdownStr.toString(), messageConfig.getResetCountdown()));
-                    }
-
-                }
-            }
-
-            //現在時刻とリセット時刻が同一か
-            if (resetTime.get(Calendar.DAY_OF_WEEK) == nowCalendar.get(Calendar.DAY_OF_WEEK) && resetTime.get(Calendar.HOUR_OF_DAY) == nowCalendar.get(Calendar.HOUR_OF_DAY) && resetTime.get(Calendar.MINUTE) == nowCalendar.get(Calendar.MINUTE) && resetTime.get(Calendar.SECOND) == nowCalendar.get(Calendar.SECOND)) {
-
-                //メッセージが空白で無ければ送信
-                //リセット開始メッセージ
-                if (!checkUtil.checkNullOrBlank(messageConfig.getResetStart())) {
-                    Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getResetStart());
-                }
-
-                //全ての素材世界のリセット
-                for (int i = 0; i <= 2; i++) {
-                    resetUtil.regenerateWorld(i);
-                }
-
-                //全ての素材世界へゲートを再生成
-                if (mainConfig.isUseMultiversePortals()) {
-                    for (int i = 0; i <= 2; i++) {
-                        if ((i == 0 && mainConfig.isGateAutoBuildOfNormal()) || (i == 1 && mainConfig.isGateAutoBuildOfNether()) || (i == 2 && mainConfig.isGateAutoBuildOfEnd())) {
-                            createWarpGateUtil.createWarpGateUtil(i);
-                        }
-                    }
-                }
-
-                //メッセージが空白で無ければ送信
-                //リセット完了メッセージ
-                if (!checkUtil.checkNullOrBlank(messageConfig.getResetComplete())) {
-                    Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getResetComplete());
-                }
-
-            }
         }
     }
 }
