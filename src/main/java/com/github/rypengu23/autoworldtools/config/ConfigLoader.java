@@ -2,27 +2,29 @@ package com.github.rypengu23.autoworldtools.config;
 
 import com.github.rypengu23.autoworldtools.AutoWorldTools;
 import jp.jyn.jbukkitlib.config.YamlLoader;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 public class ConfigLoader {
 
+    private Plugin plugin;
+
     private final YamlLoader mainLoader;
     private MainConfig mainConfig;
+    static MainConfig mainConfigMemory;
 
     private YamlLoader messageLoader;
     private MessageConfig messageConfig;
+    static MessageConfig messageConfigMemory;
 
     public ConfigLoader() {
-        Plugin plugin = AutoWorldTools.getInstance();
+        this.plugin = AutoWorldTools.getInstance();
         this.mainLoader = new YamlLoader(plugin, "config.yml");
-        mainConfig = new MainConfig(mainLoader.getConfig());
-        this.messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
-        messageConfig = new MessageConfig(messageLoader.getConfig());
+        this.mainConfig = mainConfigMemory;
+        this.messageLoader = new YamlLoader(plugin, "message_en.yml");
+        this.messageConfig = messageConfigMemory;
     }
 
     public void reloadConfig() {
-        Plugin plugin = AutoWorldTools.getInstance();
 
         //MainConfig
         mainLoader.saveDefaultConfig();
@@ -30,18 +32,21 @@ public class ConfigLoader {
             mainLoader.reloadConfig();
         }
         mainConfig = new MainConfig(mainLoader.getConfig());
+        mainConfigMemory = mainConfig;
 
         //MessageConfig
-        this.messageLoader = new YamlLoader(plugin, "message_ja.yml");
-        messageLoader.saveDefaultConfig();
-        this.messageLoader = new YamlLoader(plugin, "message_en.yml");
-        messageLoader.saveDefaultConfig();
-        this.messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
+        String[] messageConfigList = {"message_ja.yml", "message_en.yml"};
+        for(String fileName:messageConfigList){
+            YamlLoader initLoader = new YamlLoader(plugin, fileName);
+            initLoader.saveDefaultConfig();
+        }
+
         if (messageConfig != null) {
-            this.messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
+            messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
             messageLoader.reloadConfig();
         }
         messageConfig = new MessageConfig(messageLoader.getConfig());
+        messageConfigMemory = messageConfig;
 
         //CommandMessage
         CommandMessage commandMessage = new CommandMessage(mainConfig);
@@ -52,25 +57,12 @@ public class ConfigLoader {
         consoleMessage.changeLanguageConsoleMessages();
     }
 
-    public void saveConfig(){
-        mainLoader.saveConfig();
-        messageLoader.saveConfig();
-    }
-
     public MainConfig getMainConfig() {
         return mainConfig;
     }
 
-    public void setMainConfig(MainConfig mainConfig){
-        this.mainConfig = mainConfig;
-    }
-
     public MessageConfig getMessageConfig() {
         return messageConfig;
-    }
-
-    public void setMessageConfig(MessageConfig messageConfig){
-        this.messageConfig = messageConfig;
     }
 
 }

@@ -36,8 +36,6 @@ public final class AutoWorldTools extends JavaPlugin {
     //DiscordSRV
     public static DiscordSRV discordSRV;
 
-    public static boolean resetStatus;
-
     @Override
     public void onEnable() {
 
@@ -62,14 +60,6 @@ public final class AutoWorldTools extends JavaPlugin {
             mainConfig = configLoader.getMainConfig();
             messageConfig = configLoader.getMessageConfig();
         }
-
-        //Consoleメッセージの言語切替
-        //Chose console language
-        //ConsoleMessage consoleMessage = new ConsoleMessage(mainConfig);
-        //consoleMessage.changeLanguageConsoleMessages();
-
-        //CommandMessage commandMessage = new CommandMessage(mainConfig);
-        //commandMessage.changeLanguageCommandMessages();
 
         try {
             //Multiverse-Core接続

@@ -46,7 +46,7 @@ resetTimeInfo: "&fThe World Reset takes place every {dayofweek} at {time}."
 
 # Countdown before reset
 # {countdown}:Time to reset (○○hours○○minutes○○seconds)
-countdown: "&fWorld reset will be performed after {countdown}."
+resetCountdown: "&fWorld reset will be performed after {countdown}."
 
 # Reset start
 resetStart: "&fWorld reset start."

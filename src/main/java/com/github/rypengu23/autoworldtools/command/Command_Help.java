@@ -5,9 +5,7 @@ import com.github.rypengu23.autoworldtools.config.ConfigLoader;
 import com.github.rypengu23.autoworldtools.config.MainConfig;
 import com.github.rypengu23.autoworldtools.config.MessageConfig;
 import org.bukkit.command.CommandSender;
-import sun.tools.jar.Main;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +16,9 @@ public class Command_Help {
     private final MessageConfig messageConfig;
 
     public Command_Help(){
-        configLoader = new ConfigLoader();
-        mainConfig = configLoader.getMainConfig();
-        messageConfig = configLoader.getMessageConfig();
+        this.configLoader = new ConfigLoader();
+        this.mainConfig = configLoader.getMainConfig();
+        this.messageConfig = configLoader.getMessageConfig();
     }
 
     public void showHelp(CommandSender sender, String page){

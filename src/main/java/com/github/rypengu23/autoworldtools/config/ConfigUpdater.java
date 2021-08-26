@@ -15,8 +15,6 @@ import java.util.*;
 
 public class ConfigUpdater {
 
-    private YamlLoader mainLoader;
-    private YamlLoader messageLoader;
     private Plugin plugin;
 
     private ConfigLoader configLoader;
@@ -25,12 +23,9 @@ public class ConfigUpdater {
 
     public ConfigUpdater() {
         this.plugin = AutoWorldTools.getInstance();
-
-        configLoader = new ConfigLoader();
-        this.mainLoader = new YamlLoader(plugin, "config.yml");
-        mainConfig = configLoader.getMainConfig();
-        this.messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
-        messageConfig = configLoader.getMessageConfig();
+        this.configLoader = new ConfigLoader();
+        this.mainConfig = configLoader.getMainConfig();
+        this.messageConfig = configLoader.getMessageConfig();
     }
 
     public YamlLoader getMessageLoader(String fileName){
@@ -66,6 +61,9 @@ public class ConfigUpdater {
 
         CheckUtil checkUtil = new CheckUtil();
         Configuration configuration;
+
+        YamlLoader mainLoader = new YamlLoader(plugin, "config.yml");
+        YamlLoader messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
 
         //現在のConfigを読み込み
         ArrayList<String> configFileName = new ArrayList<>();
