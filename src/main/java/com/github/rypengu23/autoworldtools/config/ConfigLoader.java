@@ -41,10 +41,10 @@ public class ConfigLoader {
             initLoader.saveDefaultConfig();
         }
 
-        if (messageConfig != null) {
-            messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
-            messageLoader.reloadConfig();
-        }
+
+        messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
+        messageLoader.reloadConfig();
+
         messageConfig = new MessageConfig(messageLoader.getConfig());
         messageConfigMemory = messageConfig;
 

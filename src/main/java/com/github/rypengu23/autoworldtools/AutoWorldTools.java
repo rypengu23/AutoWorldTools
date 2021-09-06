@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitTask;
 public final class AutoWorldTools extends JavaPlugin {
 
     //バージョン
-    public static double pluginVersion = 1.2;
+    public static double pluginVersion = 1.3;
 
     //インスタンス
     private static AutoWorldTools instance = null;
@@ -101,16 +101,13 @@ public final class AutoWorldTools extends JavaPlugin {
         TabComplete tabComplete2 = new TabComplete();
         getCommand("awt").setTabCompleter(tabComplete2);
 
-        //リセット時刻監視
-        //reset time surveillance
+        //時刻監視
+        //time surveillance
         if (mainConfig.isAutoReset()) {
             Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_startupScheduler);
             TimeSurveillance timeSurveillance = new TimeSurveillance();
             timeSurveillance.timeSurveillance();
         }
-
-        //バックアップ時刻監視
-        //Backup time surveillance
 
         Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_startupCompPlugin);
     }

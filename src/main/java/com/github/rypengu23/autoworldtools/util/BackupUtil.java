@@ -102,12 +102,6 @@ public class BackupUtil {
             public void run() {
 
                 //メッセージが空白で無ければ送信
-                //リセット開始メッセージ
-                if (!checkUtil.checkNullOrBlank(messageConfig.getBackupStart())) {
-                    Bukkit.getServer().broadcastMessage("§a" + messageConfig.getPrefix() + " §f" + messageConfig.getBackupStart());
-                }
-
-                //メッセージが空白で無ければ送信
                 //バックアップ開始メッセージ(Discord)
                 if (mainConfig.isUseDiscordSRV() && !checkUtil.checkNullOrBlank(messageConfig.getBackupStartOfDiscord())) {
                     DiscordUtil discordUtil = new DiscordUtil();
