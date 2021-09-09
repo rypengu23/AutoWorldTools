@@ -19,8 +19,13 @@ public class DiscordUtil {
     }
 
     public void sendMessageMainChannel(String message){
-        TextChannel mainChannel = AutoWorldTools.discordSRV.getMainTextChannel();
-        github.scarsz.discordsrv.util.DiscordUtil.sendMessage(mainChannel, message);
+
+        try {
+            TextChannel mainChannel = AutoWorldTools.discordSRV.getMainTextChannel();
+            github.scarsz.discordsrv.util.DiscordUtil.sendMessage(mainChannel, message);
+        }catch(NullPointerException e){
+
+        }
     }
 
 

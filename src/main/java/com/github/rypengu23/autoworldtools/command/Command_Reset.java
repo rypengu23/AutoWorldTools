@@ -6,7 +6,6 @@ import com.github.rypengu23.autoworldtools.config.MainConfig;
 import com.github.rypengu23.autoworldtools.config.MessageConfig;
 import com.github.rypengu23.autoworldtools.util.ConvertUtil;
 import com.github.rypengu23.autoworldtools.util.CreateWarpGateUtil;
-import com.github.rypengu23.autoworldtools.util.DiscordUtil;
 import com.github.rypengu23.autoworldtools.util.ResetUtil;
 import org.bukkit.command.CommandSender;
 
@@ -81,9 +80,7 @@ public class Command_Reset {
         } else {
             sender.sendMessage("§a" + messageConfig.getPrefix() + " §f" + CommandMessage.AutoWorldTools_CommandAllResetComp);
         }
-        //リセット完了メッセージ(Discord)
-        DiscordUtil discordUtil = new DiscordUtil();
-        discordUtil.sendMessageMainChannel("");
+
     }
 
     public void showResetInfo(CommandSender sender) {
