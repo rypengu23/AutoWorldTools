@@ -2,7 +2,6 @@ package com.github.rypengu23.autoworldtools.command;
 
 import com.github.rypengu23.autoworldtools.AutoWorldTools;
 import com.github.rypengu23.autoworldtools.config.*;
-import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiversePortals.MultiversePortals;
 import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
@@ -32,15 +31,6 @@ public class Command_Config {
         configLoader.reloadConfig();
         mainConfig = configLoader.getMainConfig();
         messageConfig = configLoader.getMessageConfig();
-
-        //Multiverse-Core再読み込み
-        try {
-            Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadMultiverseCore);
-            AutoWorldTools.core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-            Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadCompMultiverseCore);
-        }catch(NoClassDefFoundError e){
-            Bukkit.getLogger().warning("[AutoWorldTools] "+ ConsoleMessage.AutoWorldTools_loadFailureMultiverseCore);
-        }
 
         //Multiverse-Portals再読み込み
         if(mainConfig.isUseMultiversePortals()){

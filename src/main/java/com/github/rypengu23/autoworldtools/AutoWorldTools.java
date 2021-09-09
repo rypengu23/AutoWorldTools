@@ -3,7 +3,6 @@ package com.github.rypengu23.autoworldtools;
 import com.github.rypengu23.autoworldtools.command.*;
 import com.github.rypengu23.autoworldtools.config.*;
 import com.github.rypengu23.autoworldtools.watch.TimeSurveillance;
-import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiversePortals.MultiversePortals;
 import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
@@ -15,7 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 public final class AutoWorldTools extends JavaPlugin {
 
     //バージョン
-    public static double pluginVersion = 1.3;
+    public static double pluginVersion = 1.4;
 
     //インスタンス
     private static AutoWorldTools instance = null;
@@ -30,7 +29,6 @@ public final class AutoWorldTools extends JavaPlugin {
     private MessageConfig messageConfig;
 
     //Multiverse
-    public static MultiverseCore core;
     public static MultiversePortals portals;
 
     //DiscordSRV
@@ -49,7 +47,7 @@ public final class AutoWorldTools extends JavaPlugin {
 
         //起動メッセージ
         //Startup message
-        Bukkit.getLogger().info("[AutoWorldTools] == AutoWorldTools Ver1.2 ==");
+        Bukkit.getLogger().info("[AutoWorldTools] == AutoWorldTools Ver"+ pluginVersion +" ==");
         Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_startupPlugin);
 
         //Configの更新確認
@@ -61,17 +59,6 @@ public final class AutoWorldTools extends JavaPlugin {
             messageConfig = configLoader.getMessageConfig();
         }
 
-        try {
-            //Multiverse-Core接続
-            //Connect Multiverse-Core
-            Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadMultiverseCore);
-
-            core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-            Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadCompMultiverseCore);
-
-        } catch (NoClassDefFoundError e) {
-            Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadFailureMultiverseCore);
-        }
         if (mainConfig.isUseMultiversePortals()) {
             //Multiverse-Portals接続
             //Connect Multiverse-Portals

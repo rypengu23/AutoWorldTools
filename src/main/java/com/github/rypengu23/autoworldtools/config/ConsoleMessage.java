@@ -47,6 +47,8 @@ public class ConsoleMessage {
     public static String ConfigUpdater_UpdateConfig;
     public static String ConfigUpdater_NoConfigUpdates;
 
+    public static String DiscordUtil_FailureSendMessage;
+
 
     private MainConfig mainConfig;
 
@@ -102,6 +104,8 @@ public class ConsoleMessage {
             ConfigUpdater_UpdateConfig = "古いバージョンのConfigです。アップデートを行います。";
             ConfigUpdater_NoConfigUpdates = "Configは最新バージョンです。";
 
+            DiscordUtil_FailureSendMessage = "DiscordSRVへのメッセージ送信に失敗しました。";
+
         } else if(mainConfig.getConsoleLanguage().equals("en")){
 
             AutoWorldTools_startupPlugin = "Plugin startup.";
@@ -143,6 +147,8 @@ public class ConsoleMessage {
             ConfigUpdater_CheckUpdateConfig = "Check for Config updates.";
             ConfigUpdater_UpdateConfig = "Update Config.";
             ConfigUpdater_NoConfigUpdates = "No Config updates.";
+
+            DiscordUtil_FailureSendMessage = "Failed to send a message to DiscordSRV.";
         }
     }
 }

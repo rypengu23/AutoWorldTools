@@ -1,17 +1,14 @@
 package com.github.rypengu23.autoworldtools.util;
 
-import com.github.rypengu23.autoworldtools.AutoWorldTools;
 import com.github.rypengu23.autoworldtools.config.ConfigLoader;
 import com.github.rypengu23.autoworldtools.config.ConsoleMessage;
 import com.github.rypengu23.autoworldtools.config.MainConfig;
 import com.github.rypengu23.autoworldtools.config.MessageConfig;
-import com.onarandombox.MultiverseCore.api.MVWorldManager;
-import org.bukkit.Bukkit;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.io.File;
+import java.util.*;
 
 public class ResetUtil {
 
@@ -156,8 +153,6 @@ public class ResetUtil {
     public void regenerateWorld(int worldType) {
 
         try {
-            MVWorldManager worldManager = AutoWorldTools.core.getMVWorldManager();
-
             //ワールド名リストの取得
             ArrayList<String> worldNameList = new ArrayList<>();
             if (worldType == 0) {
@@ -171,7 +166,28 @@ public class ResetUtil {
             //ワールド再生成
             for (String worldName : worldNameList) {
                 Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.ResetUtil_resetStart + worldName);
-                if (worldManager.regenWorld(worldName, true, true, "")) {
+                World resetWorld = Bukkit.getWorld(worldName);
+                if(resetWorld != null){
+
+                    //プレイヤー退避
+                    movePlayer(resetWorld);
+
+                    //ワールド削除
+                    Bukkit.unloadWorld(resetWorld, false);
+                    deleteDirectory(resetWorld.getWorldFolder());
+
+                    //ワールド生成
+                    WorldCreator worldCreator = new WorldCreator(worldName);
+                    Random r = new Random();
+                    worldCreator.seed(r.nextLong());
+                    if (worldType == 0) {
+                        worldCreator.environment(World.Environment.NORMAL);
+                    } else if (worldType == 1) {
+                        worldCreator.environment(World.Environment.NETHER);
+                    } else {
+                        worldCreator.environment(World.Environment.THE_END);
+                    }
+                    worldCreator.createWorld();
 
                     //ワールドボーダーをセット
                     int worldSize = 0;
@@ -195,6 +211,44 @@ public class ResetUtil {
 
         } catch (NoClassDefFoundError e) {
             Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.ResetUtil_resetFailureNotConnectedMultiverseCore);
+        }
+    }
+
+    public boolean deleteDirectory(File file){
+        if (file.exists()) {
+
+            //ファイル存在チェック
+            if (file.isFile()) {
+                //存在したら削除する
+                file.delete();
+
+                //対象がディレクトリの場合
+            } else if(file.isDirectory()) {
+
+                //ディレクトリ内の一覧を取得
+                File[] files = file.listFiles();
+
+                //存在するファイル数分ループして再帰的に削除
+                for(int i=0; i<files.length; i++) {
+                    deleteDirectory(files[i]);
+                }
+
+                //ディレクトリを削除する
+                file.delete();
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void movePlayer(World world){
+        List<Player> playerList = world.getPlayers();
+
+        for(Player player:playerList){
+            Location respawnLocation = Bukkit.getWorld("world").getSpawnLocation();
+            player.teleport(respawnLocation);
         }
     }
 }
