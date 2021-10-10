@@ -26,9 +26,6 @@ Multiverse-Portalsを導入している場合、再生性後もワープゲー�
 設定した時刻になると、Configに記載した全ワールドがバックアップされます。古いファイルを自動で削除することも可能です。
 >At the set time, all the worlds listed in Config will be backed up. It is also possible to delete old files automatically.
 
-# 導入必須プラグイン | Required plugin
-
-* Multiverse-Core
 
 # 任意プラグイン | Optional plugin
 
