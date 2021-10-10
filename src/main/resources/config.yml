@@ -7,7 +7,7 @@
 #
 # @author     rypengu23
 # @copyright  Copyright ryoengu23 2021
-version: 1.4
+version: 1.5
 # =======================================
 
 setting:
@@ -33,7 +33,8 @@ setting:
   # 指定時刻に自動で再起動するかどうか
   autoRestart: true
 
-  #リセット・バックアップ完了時にDiscordSRVのメインチャンネルにメッセージを送信するかどうか
+  # Whether to send a message to the main channel of Discord SRV when the reset or backup is completed
+  # リセット・バックアップ完了時にDiscordSRVのメインチャンネルにメッセージを送信するかどうか
   useDiscordSRV: false
 
   # Maximum storage amount
@@ -66,12 +67,14 @@ resetTime:
 resetWorldInfo:
   # World name to reset
   # リセットを行うワールド名
+  # When specifying the seed value after reset, add a colon after the world name and write it after it. Example) material:0123456789
+  # リセット後のシード値を指定する場合、ワールド名の後ろにコロンを付けてその後ろに記載する。例) material:0123456789
   # If you specify more than one, separate them with commas. (,)
   # 複数指定する場合、カンマ区切りで記載
 
   # Normal
   # ノーマル
-  worldNameOfNormal: "material"
+  worldNameOfNormal: "material,material2:0123456789"
   # Nether
   # ネザー
   worldNameOfNether: "material_nether"
@@ -123,6 +126,27 @@ gateInfo:
   # World name (The end)
   # ワールド名（ジ・エンド）
   gateAutoBuildOfEnd: true
+
+dynmap:
+
+  # If you are using Dynmap, delete the rendered image on reset
+  # Dynmapを使用している場合、リセット時にレンダリング画像を削除するかどうか
+  useDynmap: false
+
+  # Whether to delete the map of the world (normal) to be reset
+  # リセット対象のワールド(ノーマル)のマップを削除するかどうか
+  mapPurgeAtResetOfNormal: false
+  # Whether to delete the map of the world (nether) to be reset
+  # リセット対象のワールド(ネザー)のマップを削除するかどうか
+  mapPurgeAtResetOfNether: false
+  # Whether to delete the map of the world (the end) to be reset
+  # リセット対象のワールド(ジ・エンド)のマップを削除するかどうか
+  mapPurgeAtResetOfEnd: false
+
+  # If you want to delete the map data individually when resetting the specified time,
+  # enter the world name you want to delete.
+  # 指定時刻リセット時、個別にマップデータを削除したい場合削除したいワールド名を記載
+  mapPurgeAtResetWorldName: "world_test"
 
 # =======================================
 #  Backup setting

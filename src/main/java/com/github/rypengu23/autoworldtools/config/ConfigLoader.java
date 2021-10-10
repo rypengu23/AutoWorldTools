@@ -41,7 +41,6 @@ public class ConfigLoader {
             initLoader.saveDefaultConfig();
         }
 
-
         messageLoader = new YamlLoader(plugin, "message_"+ mainConfig.getLanguage() +".yml");
         messageLoader.reloadConfig();
 

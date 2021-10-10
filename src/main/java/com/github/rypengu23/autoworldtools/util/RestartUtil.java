@@ -87,9 +87,9 @@ public class RestartUtil {
 
         //メッセージが空白で無ければ送信
         //再起動開始メッセージ(Discord)
-        if (mainConfig.isUseDiscordSRV() && !checkUtil.checkNullOrBlank(messageConfig.getResetStartOfDiscord())) {
+        if (mainConfig.isUseDiscordSRV() && !checkUtil.checkNullOrBlank(messageConfig.getRestartStartOfDiscord())) {
             DiscordUtil discordUtil = new DiscordUtil();
-            discordUtil.sendMessageMainChannel(messageConfig.getResetStartOfDiscord());
+            discordUtil.sendMessageMainChannel(messageConfig.getRestartStartOfDiscord());
         }
 
         Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.RestartUtil_RestartStart);

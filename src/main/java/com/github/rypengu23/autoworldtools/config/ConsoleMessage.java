@@ -17,6 +17,10 @@ public class ConsoleMessage {
     public static String AutoWorldTools_loadCompDiscordSRV;
     public static String AutoWorldTools_loadFailureDiscordSRV;
 
+    public static String AutoWorldTools_loadDynmap;
+    public static String AutoWorldTools_loadCompDynmap;
+    public static String AutoWorldTools_loadFailureDynmap;
+
     public static String AutoWorldTools_startupScheduler;
 
 
@@ -31,15 +35,18 @@ public class ConsoleMessage {
     public static String BackupUtil_backupComp;
     public static String BackupUtil_backupFailure;
 
-    public static String CreateWarpGateUtil_RestartMultiversePortals;
-    public static String CreateWarpGateUtil_RestartCompMultiversePortals;
-    public static String CreateWarpGateUtil_RestartFailureMultiversePortals;
-    public static String CreateWarpGateUtil_WorldNameGateNameAmountMismatch;
-    public static String CreateWarpGateUtil_GateGenerateInfo;
-    public static String CreateWarpGateUtil_PortalNotFound;
-    public static String CreateWarpGateUtil_PortalNotGenerateInfo;
-    public static String CreateWarpGateUtil_GateGenerateStart;
-    public static String CreateWarpGateUtil_GateGenerateComp;
+    public static String MultiversePortalsUtil_RestartMultiversePortals;
+    public static String MultiversePortalsUtil_RestartCompMultiversePortals;
+    public static String MultiversePortalsUtil_RestartFailureMultiversePortals;
+    public static String MultiversePortalsUtil_WorldNameGateNameAmountMismatch;
+    public static String MultiversePortalsUtil_GateGenerateInfo;
+    public static String MultiversePortalsUtil_PortalNotFound;
+    public static String MultiversePortalsUtil_PortalNotGenerateInfo;
+    public static String MultiversePortalsUtil_GateGenerateStart;
+    public static String MultiversePortalsUtil_GateGenerateComp;
+
+    public static String DynmapUtil_PurgeMapComplete;
+    public static String DynmapUtil_PurgeMapFailure;
 
     public static String RestartUtil_RestartStart;
 
@@ -74,6 +81,10 @@ public class ConsoleMessage {
             AutoWorldTools_loadCompDiscordSRV = "DiscordSRVの読み込みが完了しました。";
             AutoWorldTools_loadFailureDiscordSRV = "DiscordSRVの読み込みに失敗しました。";
 
+            AutoWorldTools_loadDynmap = "Dynmapの読み込みを行います。";
+            AutoWorldTools_loadCompDynmap = "Dynmapの読み込みが完了しました。";
+            AutoWorldTools_loadFailureDynmap = "Dynmapの読み込みに失敗しました。";
+
             AutoWorldTools_startupScheduler = "スケジューラを起動。";
 
             ResetUtil_resetStart = "リセット開始。 ワールド名:";
@@ -88,15 +99,18 @@ public class ConsoleMessage {
             BackupUtil_backupFailure = "ワールドが見つからないため、バックアップに失敗しました。 ワールド名:";
 
 
-            CreateWarpGateUtil_RestartMultiversePortals = "Multiverse-Portalsを再起動します。";
-            CreateWarpGateUtil_RestartCompMultiversePortals = "Multiverse-Portalsの再起動が完了しました。";
-            CreateWarpGateUtil_RestartFailureMultiversePortals = "Multiverse-Portalsの再起動に失敗しました。";
-            CreateWarpGateUtil_WorldNameGateNameAmountMismatch = "Configに記載されている、ワールド名とポータル名の数量が一致しないためゲート生成処理を行いません。";
-            CreateWarpGateUtil_GateGenerateInfo = "ワールド名:{worldname} ポータル名:{portalname} にゲートを生成します。";
-            CreateWarpGateUtil_PortalNotFound = "ポータル名:{portalname} の情報取得に失敗しました。";
-            CreateWarpGateUtil_PortalNotGenerateInfo = "ワールド名:{worldname} ポータル名:{portalname} の生成は行いません。";
-            CreateWarpGateUtil_GateGenerateStart = "ゲート生成処理を開始します。";
-            CreateWarpGateUtil_GateGenerateComp = "ゲート生成処理が完了しました。";
+            MultiversePortalsUtil_RestartMultiversePortals = "Multiverse-Portalsを再起動します。";
+            MultiversePortalsUtil_RestartCompMultiversePortals = "Multiverse-Portalsの再起動が完了しました。";
+            MultiversePortalsUtil_RestartFailureMultiversePortals = "Multiverse-Portalsの再起動に失敗しました。";
+            MultiversePortalsUtil_WorldNameGateNameAmountMismatch = "Configに記載されている、ワールド名とポータル名の数量が一致しないためゲート生成処理を行いません。";
+            MultiversePortalsUtil_GateGenerateInfo = "ワールド名:{worldname} ポータル名:{portalname} にゲートを生成します。";
+            MultiversePortalsUtil_PortalNotFound = "ポータル名:{portalname} の情報取得に失敗しました。";
+            MultiversePortalsUtil_PortalNotGenerateInfo = "ワールド名:{worldname} ポータル名:{portalname} の生成は行いません。";
+            MultiversePortalsUtil_GateGenerateStart = "ゲート生成処理を開始します。";
+            MultiversePortalsUtil_GateGenerateComp = "ゲート生成処理が完了しました。";
+
+            DynmapUtil_PurgeMapComplete = "ワールド名:{worldname}のマップを削除しました。";
+            DynmapUtil_PurgeMapFailure = "ワールド名:{worldname}のマップを削除に失敗しました。";
 
             RestartUtil_RestartStart = "サーバーを再起動します。";
 
@@ -119,6 +133,14 @@ public class ConsoleMessage {
             AutoWorldTools_loadCompMultiversePortals = "Load complete:Multiverse-Portals";
             AutoWorldTools_loadFailureMultiversePortals = "Load failure:Multiverse-Portals";
 
+            AutoWorldTools_loadDiscordSRV = "Load:DiscordSRV";
+            AutoWorldTools_loadCompDiscordSRV = "Load complete:DiscordSRV";
+            AutoWorldTools_loadFailureDiscordSRV = "Load failure:DiscordSRV";
+
+            AutoWorldTools_loadDynmap = "Load:Dynmap";
+            AutoWorldTools_loadCompDynmap = "Load complete:Dynmap";
+            AutoWorldTools_loadFailureDynmap = "Load failure:Dynmap";
+
             AutoWorldTools_startupScheduler = "Scheduler startup.";
 
             ResetUtil_resetStart = "Reset start. World:";
@@ -132,15 +154,19 @@ public class ConsoleMessage {
             BackupUtil_backupComp = "Backup complete. World:";
             BackupUtil_backupFailure = "Backup failure. Not Found world. World:";
 
-            CreateWarpGateUtil_RestartMultiversePortals = "Restart Multiverse-Portals.";
-            CreateWarpGateUtil_RestartCompMultiversePortals = "Restarted Multiverse-Portals.";
-            CreateWarpGateUtil_RestartFailureMultiversePortals = "Restart failure Multiverse-Portals.";
-            CreateWarpGateUtil_WorldNameGateNameAmountMismatch = "The amount of world name and portal name do not match. Not generated gate.";
-            CreateWarpGateUtil_GateGenerateInfo = "Create a gate on World name:{worldname} Portal name:{portalname}";
-            CreateWarpGateUtil_PortalNotFound = "Failed to get portal information　of {portalname}.";
-            CreateWarpGateUtil_PortalNotGenerateInfo = "Does not generate World name:{worldname} Portal name:{portalname}";
-            CreateWarpGateUtil_GateGenerateStart = "Start gate generation";
-            CreateWarpGateUtil_GateGenerateComp = "Complete gate generation";
+            MultiversePortalsUtil_RestartMultiversePortals = "Restart Multiverse-Portals.";
+            MultiversePortalsUtil_RestartCompMultiversePortals = "Restarted Multiverse-Portals.";
+            MultiversePortalsUtil_RestartFailureMultiversePortals = "Restart failure Multiverse-Portals.";
+            MultiversePortalsUtil_WorldNameGateNameAmountMismatch = "The amount of world name and portal name do not match. Not generated gate.";
+            MultiversePortalsUtil_GateGenerateInfo = "Create a gate on World name:{worldname} Portal name:{portalname}";
+            MultiversePortalsUtil_PortalNotFound = "Failed to get portal information　of {portalname}.";
+            MultiversePortalsUtil_PortalNotGenerateInfo = "Does not generate World name:{worldname} Portal name:{portalname}";
+            MultiversePortalsUtil_GateGenerateStart = "Start gate generation";
+            MultiversePortalsUtil_GateGenerateComp = "Complete gate generation";
+
+            DynmapUtil_PurgeMapComplete = "Map deletion successful:{worldname}.";
+            DynmapUtil_PurgeMapFailure = "Map deletion failure:{worldname}.";
+
 
             RestartUtil_RestartStart = "Restart the server...";
 

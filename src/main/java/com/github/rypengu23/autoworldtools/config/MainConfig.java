@@ -1,11 +1,12 @@
 package com.github.rypengu23.autoworldtools.config;
 
 import com.github.rypengu23.autoworldtools.AutoWorldTools;
-import com.github.rypengu23.autoworldtools.util.CheckUtil;
+import com.github.rypengu23.autoworldtools.model.ResetWorldModel;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -42,9 +43,9 @@ public class MainConfig {
     private int[] resetNotifyTimeList;
 
     //リセットワールド名
-    private String[] resetWorldNameOfNormal;
-    private String[] resetWorldNameOfNether;
-    private String[] resetWorldNameOfEnd;
+    private ArrayList<ResetWorldModel> resetWorldNameOfNormal = new ArrayList<>();
+    private ArrayList<ResetWorldModel> resetWorldNameOfNether = new ArrayList<>();
+    private ArrayList<ResetWorldModel> resetWorldNameOfEnd = new ArrayList<>();
 
     //ワールドサイズ
     private int worldOfNormalSize;
@@ -66,6 +67,17 @@ public class MainConfig {
     private String[] portalNameOfNormal;
     private String[] portalNameOfNether;
     private String[] portalNameOfEnd;
+
+    //Dynmap利用可否
+    private boolean useDynmap;
+
+    //リセット時マップ削除可否
+    private boolean mapPurgeAtResetOfNormal;
+    private boolean mapPurgeAtResetOfNether;
+    private boolean mapPurgeAtResetOfEnd;
+
+    //個別に削除するマップ
+    private String[] mapPurgeAtResetWorldName;
 
     //バックアップ時間
     private String[] backupTimeList;
@@ -118,10 +130,58 @@ public class MainConfig {
             resetNotifyTimeList = Stream.of(config.getString("resetTime.resetNotifyTime").split(",")).mapToInt(Integer::parseInt).toArray();
         }
 
-        //リセットワールド名
-        resetWorldNameOfNormal = config.getString("resetWorldInfo.worldNameOfNormal").split(",");
-        resetWorldNameOfNether = config.getString("resetWorldInfo.worldNameOfNether").split(",");
-        resetWorldNameOfEnd = config.getString("resetWorldInfo.worldNameOfEnd").split(",");
+        //リセットワールド情報
+        //ノーマル
+        String worldNameWorkOfNormal[] = config.getString("resetWorldInfo.worldNameOfNormal").split(",");
+        for(String worldName:worldNameWorkOfNormal){
+            if(worldName.contains(":")){
+                String[] worldInfoWork = worldName.split(":");
+                ResetWorldModel worldModelWork = new ResetWorldModel();
+                worldModelWork.setWorldName(worldInfoWork[0]);
+                try {
+                    worldModelWork.setSeed(Long.parseLong(worldInfoWork[1]));
+                }catch(Exception e){
+                    worldModelWork.setSeed(-1);
+                }
+                resetWorldNameOfNormal.add(worldModelWork);
+            }else{
+                resetWorldNameOfNormal.add(new ResetWorldModel(worldName, (long) -1));
+            }
+        }
+        //ネザー
+        String worldNameWorkOfNether[] = config.getString("resetWorldInfo.worldNameOfNether").split(",");
+        for(String worldName:worldNameWorkOfNether){
+            if(worldName.contains(":")){
+                String[] worldInfoWork = worldName.split(":");
+                ResetWorldModel worldModelWork = new ResetWorldModel();
+                worldModelWork.setWorldName(worldInfoWork[0]);
+                try {
+                    worldModelWork.setSeed(Long.parseLong(worldInfoWork[1]));
+                }catch(Exception e){
+                    worldModelWork.setSeed(-1);
+                }
+                resetWorldNameOfNether.add(worldModelWork);
+            }else{
+                resetWorldNameOfNether.add(new ResetWorldModel(worldName, (long) -1));
+            }
+        }
+        //エンド
+        String worldNameWorkOfEnd[] = config.getString("resetWorldInfo.worldNameOfEnd").split(",");
+        for(String worldName:worldNameWorkOfEnd){
+            if(worldName.contains(":")){
+                String[] worldInfoWork = worldName.split(":");
+                ResetWorldModel worldModelWork = new ResetWorldModel();
+                worldModelWork.setWorldName(worldInfoWork[0]);
+                try {
+                    worldModelWork.setSeed(Long.parseLong(worldInfoWork[1]));
+                }catch(Exception e){
+                    worldModelWork.setSeed(-1);
+                }
+                resetWorldNameOfEnd.add(worldModelWork);
+            }else{
+                resetWorldNameOfEnd.add(new ResetWorldModel(worldName, (long) -1));
+            }
+        }
 
         //ワールドボーダー
         worldOfNormalSize = config.getInt("border.worldOfNormalSize");
@@ -140,6 +200,17 @@ public class MainConfig {
         gateAutoBuildOfNormal = config.getBoolean("gateInfo.gateAutoBuildOfNormal");
         gateAutoBuildOfNether = config.getBoolean("gateInfo.gateAutoBuildOfNether");
         gateAutoBuildOfEnd = config.getBoolean("gateInfo.gateAutoBuildOfEnd");
+
+        //Dynmap利用可否
+        useDynmap = config.getBoolean("dynmap.useDynmap");
+
+        //リセット時マップ削除可否
+        mapPurgeAtResetOfNormal = config.getBoolean("dynmap.mapPurgeAtResetOfNormal");
+        mapPurgeAtResetOfNether = config.getBoolean("dynmap.mapPurgeAtResetOfNether");
+        mapPurgeAtResetOfEnd = config.getBoolean("dynmap.mapPurgeAtResetOfEnd");
+
+        //個別に削除するマップ
+        mapPurgeAtResetWorldName = config.getString("dynmap.mapPurgeAtResetWorldName").split(",");;
 
         //バックアップワールドリスト
         backupWorldName = config.getString("backupWorldInfo.backupWorldName").split(",");
@@ -169,10 +240,10 @@ public class MainConfig {
         map.put("version", "double");
         map.put("setting.language", "string");
         map.put("setting.consoleLanguage", "string");
-        map.put("setting.useDiscordSRV", "boolean");
         map.put("setting.autoReset", "boolean");
         map.put("setting.autoBackup", "boolean");
         map.put("setting.autoRestart", "boolean");
+        map.put("setting.useDiscordSRV", "boolean");
         map.put("setting.backupLimit", "int");
 
         map.put("resetTime.resetDayOfTheWeek", "string");
@@ -194,6 +265,12 @@ public class MainConfig {
         map.put("gateInfo.gateAutoBuildOfNormal", "boolean");
         map.put("gateInfo.gateAutoBuildOfNether", "boolean");
         map.put("gateInfo.gateAutoBuildOfEnd", "boolean");
+
+        map.put("dynmap.useDynmap", "boolean");
+        map.put("dynmap.mapPurgeAtResetOfNormal", "boolean");
+        map.put("dynmap.mapPurgeAtResetOfNether", "boolean");
+        map.put("dynmap.mapPurgeAtResetOfEnd", "boolean");
+        map.put("dynmap.mapPurgeAtResetWorldName", "string");
 
         map.put("backupWorldInfo.backupWorldName", "string");
 
@@ -300,27 +377,27 @@ public class MainConfig {
         this.resetNotifyTimeList = resetNotifyTimeList;
     }
 
-    public String[] getResetWorldNameOfNormal() {
+    public ArrayList<ResetWorldModel> getResetWorldNameOfNormal() {
         return resetWorldNameOfNormal;
     }
 
-    public void setResetWorldNameOfNormal(String[] resetWorldNameOfNormal) {
+    public void setResetWorldNameOfNormal(ArrayList<ResetWorldModel> resetWorldNameOfNormal) {
         this.resetWorldNameOfNormal = resetWorldNameOfNormal;
     }
 
-    public String[] getResetWorldNameOfNether() {
+    public ArrayList<ResetWorldModel> getResetWorldNameOfNether() {
         return resetWorldNameOfNether;
     }
 
-    public void setResetWorldNameOfNether(String[] resetWorldNameOfNether) {
+    public void setResetWorldNameOfNether(ArrayList<ResetWorldModel> resetWorldNameOfNether) {
         this.resetWorldNameOfNether = resetWorldNameOfNether;
     }
 
-    public String[] getResetWorldNameOfEnd() {
+    public ArrayList<ResetWorldModel> getResetWorldNameOfEnd() {
         return resetWorldNameOfEnd;
     }
 
-    public void setResetWorldNameOfEnd(String[] resetWorldNameOfEnd) {
+    public void setResetWorldNameOfEnd(ArrayList<ResetWorldModel> resetWorldNameOfEnd) {
         this.resetWorldNameOfEnd = resetWorldNameOfEnd;
     }
 
@@ -410,6 +487,46 @@ public class MainConfig {
 
     public void setPortalNameOfEnd(String[] portalNameOfEnd) {
         this.portalNameOfEnd = portalNameOfEnd;
+    }
+
+    public boolean isUseDynmap() {
+        return useDynmap;
+    }
+
+    public void setUseDynmap(boolean useDynmap) {
+        this.useDynmap = useDynmap;
+    }
+
+    public boolean isMapPurgeAtResetOfNormal() {
+        return mapPurgeAtResetOfNormal;
+    }
+
+    public void setMapPurgeAtResetOfNormal(boolean mapPurgeAtResetOfNormal) {
+        this.mapPurgeAtResetOfNormal = mapPurgeAtResetOfNormal;
+    }
+
+    public boolean isMapPurgeAtResetOfNether() {
+        return mapPurgeAtResetOfNether;
+    }
+
+    public void setMapPurgeAtResetOfNether(boolean mapPurgeAtResetOfNether) {
+        this.mapPurgeAtResetOfNether = mapPurgeAtResetOfNether;
+    }
+
+    public boolean isMapPurgeAtResetOfEnd() {
+        return mapPurgeAtResetOfEnd;
+    }
+
+    public void setMapPurgeAtResetOfEnd(boolean mapPurgeAtResetOfEnd) {
+        this.mapPurgeAtResetOfEnd = mapPurgeAtResetOfEnd;
+    }
+
+    public String[] getMapPurgeAtResetWorldName() {
+        return mapPurgeAtResetWorldName;
+    }
+
+    public void setMapPurgeAtResetWorldName(String[] mapPurgeAtResetWorldName) {
+        this.mapPurgeAtResetWorldName = mapPurgeAtResetWorldName;
     }
 
     public String[] getBackupTimeList() {

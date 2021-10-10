@@ -5,7 +5,8 @@ import com.github.rypengu23.autoworldtools.config.ConfigLoader;
 import com.github.rypengu23.autoworldtools.config.MainConfig;
 import com.github.rypengu23.autoworldtools.config.MessageConfig;
 import com.github.rypengu23.autoworldtools.util.ConvertUtil;
-import com.github.rypengu23.autoworldtools.util.CreateWarpGateUtil;
+import com.github.rypengu23.autoworldtools.util.MultiversePortalsUtil;
+import com.github.rypengu23.autoworldtools.util.DynmapUtil;
 import com.github.rypengu23.autoworldtools.util.ResetUtil;
 import org.bukkit.command.CommandSender;
 
@@ -24,6 +25,8 @@ public class Command_Reset {
     }
 
     public void resetWorld(CommandSender sender, int worldType) {
+
+        DynmapUtil dynmapUtil = new DynmapUtil();
 
         //権限所持チェック
         if (!sender.hasPermission("autoWorldTools.reset")) {
@@ -60,18 +63,24 @@ public class Command_Reset {
 
         //ゲート生成
         if (mainConfig.isUseMultiversePortals()) {
-            CreateWarpGateUtil createWarpGateUtil = new CreateWarpGateUtil();
+            MultiversePortalsUtil multiversePortalsUtil = new MultiversePortalsUtil();
             if (worldType != 3) {
                 if ((worldType == 0 && mainConfig.isGateAutoBuildOfNormal()) || (worldType == 1 && mainConfig.isGateAutoBuildOfNether()) || (worldType == 2 && mainConfig.isGateAutoBuildOfEnd())) {
-                    createWarpGateUtil.createWarpGateUtil(worldType);
+                    multiversePortalsUtil.createWarpGateUtil(worldType);
                 }
             } else {
                 for (int i = 0; i < 3; i++) {
                     if ((i == 0 && mainConfig.isGateAutoBuildOfNormal()) || (i == 1 && mainConfig.isGateAutoBuildOfNether()) || (i == 2 && mainConfig.isGateAutoBuildOfEnd())) {
-                        createWarpGateUtil.createWarpGateUtil(i);
+                        multiversePortalsUtil.createWarpGateUtil(i);
                     }
                 }
             }
+        }
+
+        //リロードが必要なプラグインをリロードする
+        if (mainConfig.isUseMultiversePortals()){
+            MultiversePortalsUtil multiversePortalsUtil = new MultiversePortalsUtil();
+            multiversePortalsUtil.reloadPlugin();
         }
 
         //リセット完了メッセージ

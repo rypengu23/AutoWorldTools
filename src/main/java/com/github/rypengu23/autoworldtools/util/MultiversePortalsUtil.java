@@ -17,67 +17,66 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CreateWarpGateUtil {
+public class MultiversePortalsUtil {
 
     private final ConfigLoader configLoader;
     private final MainConfig mainConfig;
 
-    public CreateWarpGateUtil(){
+    public MultiversePortalsUtil() {
         configLoader = new ConfigLoader();
         mainConfig = configLoader.getMainConfig();
     }
 
+    public void reloadPlugin() {
+        try {
+            Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.MultiversePortalsUtil_RestartMultiversePortals);
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Portals");
+            plugin.onDisable();
+            plugin.onEnable();
+            Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.MultiversePortalsUtil_RestartCompMultiversePortals);
+        } catch (NoClassDefFoundError e) {
+            Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.MultiversePortalsUtil_RestartFailureMultiversePortals);
+        }
+    }
+
     /**
      * 指定されたワールドにゲートを生成
+     *
      * @param worldType
      */
     public boolean createWarpGateUtil(int worldType) {
 
         ConvertUtil convertUtil = new ConvertUtil();
 
-        //Multiverse-Portals 再起動
-        //Restart Multiverse-Portals
-        if (mainConfig.isUseMultiversePortals()) {
-            try {
-                Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.CreateWarpGateUtil_RestartMultiversePortals);
-                Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Portals");
-                plugin.onDisable();
-                plugin.onEnable();
-                Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.CreateWarpGateUtil_RestartCompMultiversePortals);
-            }catch(NoClassDefFoundError e){
-                Bukkit.getLogger().warning("[AutoWorldTools] "+ ConsoleMessage.CreateWarpGateUtil_RestartFailureMultiversePortals);
-            }
-        }
-
         //ワールド名リストとポータル名リストの取得
         //Get worlds list & portals list
         ArrayList<String> worldNameList = new ArrayList<>();
         ArrayList<String> portalNameList = new ArrayList<>();
         if (worldType == 0) {
-            worldNameList = new ArrayList<String>(Arrays.asList(mainConfig.getResetWorldNameOfNormal()));
+            worldNameList = convertUtil.convertResetWorldModelListToWorldNameList(mainConfig.getResetWorldNameOfNormal());
             portalNameList = new ArrayList<String>(Arrays.asList(mainConfig.getPortalNameOfNormal()));
         } else if (worldType == 1) {
-            worldNameList = new ArrayList<String>(Arrays.asList(mainConfig.getResetWorldNameOfNether()));
+            worldNameList = convertUtil.convertResetWorldModelListToWorldNameList(mainConfig.getResetWorldNameOfNether());
             portalNameList = new ArrayList<String>(Arrays.asList(mainConfig.getPortalNameOfNether()));
         } else {
-            worldNameList = new ArrayList<String>(Arrays.asList(mainConfig.getResetWorldNameOfEnd()));
+            worldNameList = convertUtil.convertResetWorldModelListToWorldNameList(mainConfig.getResetWorldNameOfEnd());
             portalNameList = new ArrayList<String>(Arrays.asList(mainConfig.getPortalNameOfEnd()));
         }
 
         //ワールド名とポータル名の数が一致しない場合、終了
-        if(worldNameList.size() != portalNameList.size()){
-            Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.CreateWarpGateUtil_WorldNameGateNameAmountMismatch);
+        if (worldNameList.size() != portalNameList.size()) {
+            Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.MultiversePortalsUtil_WorldNameGateNameAmountMismatch);
             return false;
         }
 
         //ゲート生成処理開始
-        Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.CreateWarpGateUtil_GateGenerateStart);
+        Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.MultiversePortalsUtil_GateGenerateStart);
         for (int i = 0; i < worldNameList.size(); i++) {
 
             String worldName = worldNameList.get(i);
             String portalName = portalNameList.get(i);
 
-            Bukkit.getLogger().info("[AutoWorldTools] "+ convertUtil.placeholderUtil("{worldname}", worldName, "{portalname}", portalName, ConsoleMessage.CreateWarpGateUtil_GateGenerateInfo));
+            Bukkit.getLogger().info("[AutoWorldTools] " + convertUtil.placeholderUtil("{worldname}", worldName, "{portalname}", portalName, ConsoleMessage.MultiversePortalsUtil_GateGenerateInfo));
 
             //ワープゲートの位置
             int portalX = 0;
@@ -87,9 +86,9 @@ public class CreateWarpGateUtil {
             //ポータル情報取得
             //ポータルの取得に失敗した場合、次のポータルへ
             MVPortal portal = AutoWorldTools.portals.getPortalManager().getPortal(portalName);
-            if(portal == null){
-                Bukkit.getLogger().info("[AutoWorldTools] "+ convertUtil.placeholderUtil("{portalname}", portalName, ConsoleMessage.CreateWarpGateUtil_PortalNotFound));
-                Bukkit.getLogger().info("[AutoWorldTools] "+ convertUtil.placeholderUtil("{worldname}",worldName,"{portalname}",portalName, ConsoleMessage.CreateWarpGateUtil_PortalNotGenerateInfo));
+            if (portal == null) {
+                Bukkit.getLogger().info("[AutoWorldTools] " + convertUtil.placeholderUtil("{portalname}", portalName, ConsoleMessage.MultiversePortalsUtil_PortalNotFound));
+                Bukkit.getLogger().info("[AutoWorldTools] " + convertUtil.placeholderUtil("{worldname}", worldName, "{portalname}", portalName, ConsoleMessage.MultiversePortalsUtil_PortalNotGenerateInfo));
                 continue;
             }
             //ポータルの大きさを1×1×2に設定
@@ -98,9 +97,9 @@ public class CreateWarpGateUtil {
             Vector pos1 = portal.getLocation().getRegion().getMaximumPoint();
             Vector pos2 = portal.getLocation().getRegion().getMinimumPoint();
 
-            pos1.setX((pos1.getBlockX()+pos2.getBlockX()) / 2);
+            pos1.setX((pos1.getBlockX() + pos2.getBlockX()) / 2);
             pos1.setY(pos2.getBlockY());
-            pos1.setZ((pos1.getBlockX()+pos2.getBlockX()) / 2);
+            pos1.setZ((pos1.getBlockX() + pos2.getBlockX()) / 2);
 
             pos2.setX(pos1.getBlockX());
             pos2.setY(pos2.getBlockY() + 1);
@@ -114,7 +113,7 @@ public class CreateWarpGateUtil {
             portalZ = pos1.getBlockZ();
 
             //スポーン地点変更
-            Bukkit.getWorld(worldName).setSpawnLocation(portalX,portalY,portalZ + 2);
+            Bukkit.getWorld(worldName).setSpawnLocation(portalX, portalY, portalZ + 2);
 
             //ワープゲート作成
             //土台
@@ -276,7 +275,7 @@ public class CreateWarpGateUtil {
                 setZ = portalZ - 3;
             }
         }
-        Bukkit.getLogger().info("[AutoWorldTools] "+ ConsoleMessage.CreateWarpGateUtil_GateGenerateComp);
-        return  true;
+        Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.MultiversePortalsUtil_GateGenerateComp);
+        return true;
     }
 }

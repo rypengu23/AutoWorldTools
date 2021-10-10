@@ -8,13 +8,14 @@ import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 public final class AutoWorldTools extends JavaPlugin {
 
     //バージョン
-    public static double pluginVersion = 1.4;
+    public static double pluginVersion = 1.5;
 
     //インスタンス
     private static AutoWorldTools instance = null;
@@ -33,6 +34,9 @@ public final class AutoWorldTools extends JavaPlugin {
 
     //DiscordSRV
     public static DiscordSRV discordSRV;
+
+    //Dynmap
+    public static Plugin dynmap;
 
     @Override
     public void onEnable() {
@@ -78,6 +82,16 @@ public final class AutoWorldTools extends JavaPlugin {
                 Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadCompDiscordSRV);
             } catch (NoClassDefFoundError e) {
                 Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadFailureDiscordSRV);
+            }
+        }
+        if (mainConfig.isUseDynmap()) {
+            //Dynmap接続
+            try {
+                Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadDynmap);
+                dynmap = Bukkit.getServer().getPluginManager().getPlugin("dynmap");
+                Bukkit.getLogger().info("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadCompDynmap);
+            } catch (NoClassDefFoundError e) {
+                Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.AutoWorldTools_loadFailureDynmap);
             }
         }
 
