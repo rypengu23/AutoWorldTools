@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitTask;
 public final class AutoWorldTools extends JavaPlugin {
 
     //バージョン
-    public static double pluginVersion = 1.5;
+    public static double pluginVersion = 1.7;
 
     //インスタンス
     private static AutoWorldTools instance = null;

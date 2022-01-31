@@ -2,7 +2,6 @@ package com.github.rypengu23.autoworldtools.util;
 
 import com.github.rypengu23.autoworldtools.config.MessageConfig;
 import com.github.rypengu23.autoworldtools.model.ResetWorldModel;
-import org.minidns.record.A;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -31,6 +31,7 @@ public class ConsoleMessage {
 
     public static String BackupUtil_backupStart;
     public static String BackupUtil_startZip;
+    public static String BackupUtil_skipFile;
     public static String BackupUtil_compZip;
     public static String BackupUtil_backupComp;
     public static String BackupUtil_backupFailure;
@@ -94,6 +95,7 @@ public class ConsoleMessage {
 
             BackupUtil_backupStart = "バックアップを開始します。 ワールド名:";
             BackupUtil_startZip = "ワールドファイルの圧縮中...";
+            BackupUtil_skipFile = "アクセスに失敗したファイルをスキップしました。";
             BackupUtil_compZip = "ワールドファイルの圧縮が完了しました。";
             BackupUtil_backupComp = "バックアップが完了しました。 ワールド名:";
             BackupUtil_backupFailure = "ワールドが見つからないため、バックアップに失敗しました。 ワールド名:";
@@ -150,6 +152,7 @@ public class ConsoleMessage {
 
             BackupUtil_backupStart = "Backup start. World:";
             BackupUtil_startZip = "Compressing world file...  World:";
+            BackupUtil_skipFile = "Skipped files that failed to access.";
             BackupUtil_compZip = "Compression complete. World:";
             BackupUtil_backupComp = "Backup complete. World:";
             BackupUtil_backupFailure = "Backup failure. Not Found world. World:";

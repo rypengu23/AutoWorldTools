@@ -14,11 +14,11 @@ import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.FileSystemException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -183,7 +183,7 @@ public class BackupUtil {
 
         //バックアップするワールドをセーブ
         World world = Bukkit.getWorld(worldName);
-        //world.save();
+        world.save();
 
         //バックアップするワールド取得
         File worldFile = world.getWorldFolder();
@@ -191,8 +191,12 @@ public class BackupUtil {
         //バックアップするファイルをworkにコピー
         try {
             FileUtils.copyDirectory(worldFile, workDirectory);
+        } catch (FileSystemException e){
+            if(!e.getFile().equalsIgnoreCase("session.lock")) {
+                Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.BackupUtil_backupFailure);
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.BackupUtil_backupFailure);
         }
 
         //ZIP化設定
