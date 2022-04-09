@@ -183,7 +183,7 @@ public class BackupUtil {
 
         //バックアップするワールドをセーブ
         World world = Bukkit.getWorld(worldName);
-        world.save();
+        //world.save();
 
         //バックアップするワールド取得
         File worldFile = world.getWorldFolder();
@@ -192,7 +192,8 @@ public class BackupUtil {
         try {
             FileUtils.copyDirectory(worldFile, workDirectory);
         } catch (FileSystemException e){
-            if(!e.getFile().equalsIgnoreCase("session.lock")) {
+            if(!e.getFile().contains("session.lock")) {
+                System.out.println(e.getFile());
                 Bukkit.getLogger().warning("[AutoWorldTools] " + ConsoleMessage.BackupUtil_backupFailure);
             }
         } catch (IOException e) {

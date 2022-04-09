@@ -45,6 +45,7 @@ public class ConsoleMessage {
     public static String MultiversePortalsUtil_PortalNotGenerateInfo;
     public static String MultiversePortalsUtil_GateGenerateStart;
     public static String MultiversePortalsUtil_GateGenerateComp;
+    public static String MultiversePortalsUtil_PluginNotFound;
 
     public static String DynmapUtil_PurgeMapComplete;
     public static String DynmapUtil_PurgeMapFailure;
@@ -110,6 +111,7 @@ public class ConsoleMessage {
             MultiversePortalsUtil_PortalNotGenerateInfo = "ワールド名:{worldname} ポータル名:{portalname} の生成は行いません。";
             MultiversePortalsUtil_GateGenerateStart = "ゲート生成処理を開始します。";
             MultiversePortalsUtil_GateGenerateComp = "ゲート生成処理が完了しました。";
+            MultiversePortalsUtil_PluginNotFound = "MultiversePortalsが導入されていません。";
 
             DynmapUtil_PurgeMapComplete = "ワールド名:{worldname}のマップを削除しました。";
             DynmapUtil_PurgeMapFailure = "ワールド名:{worldname}のマップを削除に失敗しました。";
@@ -166,6 +168,7 @@ public class ConsoleMessage {
             MultiversePortalsUtil_PortalNotGenerateInfo = "Does not generate World name:{worldname} Portal name:{portalname}";
             MultiversePortalsUtil_GateGenerateStart = "Start gate generation";
             MultiversePortalsUtil_GateGenerateComp = "Complete gate generation";
+            MultiversePortalsUtil_PluginNotFound = "MultiversePortals has not been installed.";
 
             DynmapUtil_PurgeMapComplete = "Map deletion successful:{worldname}.";
             DynmapUtil_PurgeMapFailure = "Map deletion failure:{worldname}.";

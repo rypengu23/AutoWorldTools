@@ -6,7 +6,7 @@
 
     <groupId>com.github.rypengu23</groupId>
     <artifactId>AutoWorldTools</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
     <packaging>jar</packaging>
 
     <name>AutoWorldTools</name>
